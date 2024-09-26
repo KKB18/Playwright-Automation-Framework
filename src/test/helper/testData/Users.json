@@ -1,0 +1,14 @@
+{
+    "defaultUser" : "MCValidation",
+    "password" : "AMCtest12#$",
+    "users":[
+        {
+            "username1": "MCValidation",
+            "password1": "AMCtest12#$"
+        },
+        {
+            "username2": "MCAdmin",
+            "password2": "MCAdmin"
+        }
+    ]
+}
