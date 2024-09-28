@@ -4,9 +4,9 @@ declare global {
     namespace NodeJS {
         interface ProcessEnv {
             BROWSER: "chrome" | "firefox" | "webkit",
-            ENV: "Env1" | "Env2" | "Env3",
+            ENV: "preProd" | "qa" | "prod",
             BASEURL: string,
-            HEAD: "headed" | "headless"
+            HEAD: "headed" | "headless",
         }
     }
 }
