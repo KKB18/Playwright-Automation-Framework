@@ -32,7 +32,7 @@ BeforeAll(async function () {
 
 /* starts the recording of the video before the start of the scenario in the specified path 'dir' */
 Before(async function ({ pickle }) {
-
+    
     let scenarioName = pickle.name + pickle.id;
     context = await browser.newContext({
         recordVideo: {
@@ -60,6 +60,8 @@ AfterStep(async function ({ pickle }) {
     const img = await page.screenshot({ path: "./ScreenShots/" + scenarioName + ".png", type: "png" });
     // attach the SS to html report
     await this.attach(img, "image/png");
+    await page.waitForLoadState('networkidle' ,{ timeout: 100000 });
+
 
 });
 
