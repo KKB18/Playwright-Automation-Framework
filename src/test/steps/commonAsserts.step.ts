@@ -18,7 +18,7 @@ Then('assert that {string} dropdown has {string} value', async function (fieldLa
 });
 
 Then('assert that {string} text is displayed', async function (text: string) {
-    await expect(ele.eleUsingText(text)).toBeVisible();
+    await expect(ele.eleUsingText(text)).toBeVisible( {timeout: 10000});
 });
 
 Then('assert that {string} text is not displayed', async function (text: string) {

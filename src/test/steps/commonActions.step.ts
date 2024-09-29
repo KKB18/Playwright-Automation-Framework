@@ -29,7 +29,7 @@ When('user selects {string} from {string} dropdown', async function (dropdownVal
 
 When('user clicks on {string} button', async function (buttonText: string) {
     await expect(ele.buttonEleUsingText(buttonText)).toBeVisible();
-    ele.buttonEleUsingText(buttonText);
+    ele.buttonEleUsingText(buttonText).click();
 });
 
 When('user clicks on {string} text', async function (text: string) {

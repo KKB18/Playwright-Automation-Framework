@@ -8,8 +8,8 @@ export const inputEleUsingLabel = (fieldLabel: string) => page.locator(`//label[
 export const inputValueUsingLabel = (fieldLabel: string) => page.locator(`//label[contains(normalize-space(text()),"${fieldLabel}")]/ancestor::div[contains(@class,"input-group")]//input//div`);
 export const dropdownValueUsingLabel = (fieldLabel: string) => page.locator(`//label[contains(normalize-space(text()),"${fieldLabel}")]/ancestor::div[contains(@class,"input-group")]//div[contains(@class,"select-text-input")]`);
 export const inputEleUsingPlaceholder = (placeholderText: string) => page.locator(`//input[normalize-space(@placeholder)="${placeholderText}"]`);
-export const buttonEleUsingText = (buttonText: string) => page.locator(`//button[contains(text(),"${buttonText}")]`);
-const dropdownIconUsingLabel = (dropdownName: string) => page.locator(`//label[contains(normalize-space(text()),"${dropdownName}")]/ancestor::div[contains(@class,"input-group")]//i[contains(@class,"select-text--arrow"]`);
+export const buttonEleUsingText = (buttonText: string) => page.locator(`//button[(text()="${buttonText}")]`);
+const dropdownIconUsingLabel = (dropdownName: string) => page.locator(`//label[contains(normalize-space(text()),"${dropdownName}")]/ancestor::div[contains(@class,"input-group")]//i[contains(@class,"select-text--arrow")]`);
 const dropdownOptionUsingLabel = (dropdownValue: string) => page.locator(`//div[@role="option"]//span[normalize-space(text())="${dropdownValue}"]`);
 export const dateEleUsingLabel = (fieldLabel: string) => page.locator(`//label[contains(normalize-space(text()),"${fieldLabel}")]/ancestor::div[contains(@class,"input-group")]//input`);
 const dateEleCalenderIcon = (fieldLabel: string) => page.locator(`//label[contains(normalize-space(text()),"${fieldLabel}")]/ancestor::div[contains(@class,"input-group")]//input`);
@@ -20,6 +20,7 @@ export const userDropdownIcon = () => page.locator(`//*[contains(@class,"userdro
 
 export const dropdownSelectByText = async (dropdownName: string, dropdownValue: string) => {
     await dropdownIconUsingLabel(dropdownName).click();
+    await dropdownOptionUsingLabel(dropdownValue).scrollIntoViewIfNeeded({ timeout: 5000 });
     await dropdownOptionUsingLabel(dropdownValue).click();
 }
 
