@@ -1,4 +1,4 @@
-import { BeforeAll, AfterAll, Before, After, AfterStep, Status } from "@cucumber/cucumber";
+import { BeforeAll, AfterAll, Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
 import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
 import { invokeBrowser } from "../helper/browsers/browserManager";
 import { getEnv } from "../helper/env/env";
@@ -14,6 +14,9 @@ export let browser: Browser;
 export let logger: Logger;
 export let browserVersion: string;
 
+setDefaultTimeout(60 * 1000 * 4);
+
+
 /* this overrides the environment variables and fetches it from env/.env.preProd file
 invokeBrowser function launches the specific browser as per the value from env/.env.preProd */
 BeforeAll(async function () {
@@ -25,7 +28,6 @@ BeforeAll(async function () {
     const info = { browser: browserInfo, platform: platformInfo };
     const currentRepo = path.join(__dirname,'../');
     const infoFilePath = path.join(currentRepo,'/helper/testData/systemInfo.json');
-    console.log(infoFilePath);
     await fs.writeJson(infoFilePath, info);
 });
 

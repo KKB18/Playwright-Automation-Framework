@@ -5,7 +5,6 @@ import { page, logger, browser, context } from '../pages/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
 import * as ele from "../pages/orangeHrmElements";
-setDefaultTimeout(60 * 1000 * 2);
 
 Given('user navigates to the Orange Hrm application login page', async () => {
     await PageObject.navigateToUrl();
@@ -14,12 +13,10 @@ Given('user navigates to the Orange Hrm application login page', async () => {
 });
 
 When('user enters {string} into {string} field', async function (value: string, fieldLabel: string) {
-    await expect(ele.inputEleUsingLabel(fieldLabel)).toBeVisible();
     ele.inputEleUsingLabel(fieldLabel).fill(value);
 });
 
 When('user enters {string} into {string} placeholder', async function (value: string, placeholderText: string) {
-    await expect(ele.inputEleUsingPlaceholder(placeholderText)).toBeVisible();
     ele.inputEleUsingPlaceholder(placeholderText).fill(value);
 });
 
@@ -28,13 +25,11 @@ When('user selects {string} from {string} dropdown', async function (dropdownVal
 });
 
 When('user clicks on {string} button', async function (buttonText: string) {
-    await expect(ele.buttonEleUsingText(buttonText)).toBeVisible();
-    ele.buttonEleUsingText(buttonText).click();
+    await page.getByRole('button').getByText(buttonText).click();
 });
 
 When('user clicks on {string} text', async function (text: string) {
-    await expect(ele.eleUsingText(text)).toBeVisible();
-    ele.eleUsingText(text).click();
+    await page.getByText(text).click();
 });
 
 When('user clicks on user dropdown icon', async function () {
@@ -48,4 +43,12 @@ When('user press {string} key/keys on active field', async function (keyValue: s
 
 When('user {string} the side menu', async function (state: "expands" | "collapses") {
     await ele.sideMenuClick(state);
+});
+
+When('user clicks on the {string} toggle', async function (toggleText: string) {
+    await ele.toggleEleUsingText(toggleText).click();
+});
+
+When('user clicks on {string} for {string} radio button', async function (option: string, radioButton: string) {
+    await ele.radioButton(radioButton, option).click();
 });

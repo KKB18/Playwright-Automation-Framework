@@ -5,7 +5,6 @@ import { page, logger, browser, context } from '../pages/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
 import * as ele from "../pages/orangeHrmElements";
-setDefaultTimeout(60 * 1000 * 2);
 
 Then('assert that {string} field has {string} value', async function (fieldLabel: string, expectedValue: string) {
     let actualValue = ele.inputValueUsingLabel(fieldLabel).textContent();
@@ -26,5 +25,8 @@ Then('assert that {string} text is not displayed', async function (text: string)
 });
 
 Then('wait for {int} seconds', async function (waitTime: number) {
-    await page.waitForTimeout(waitTime*1000);
+    await page.waitForTimeout(waitTime*1000);});
+
+Then('assert that {string} status banner with {string} message is displayed', async function (status: string, message: string) {
+    await expect(ele.toastMessage(status, message)).toBeVisible();
 });
