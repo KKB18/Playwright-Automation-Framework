@@ -8,7 +8,7 @@ import * as ele from "../pages/orangeHrmElements";
 
 Given('user navigates to the Orange Hrm application login page', async () => {
     await PageObject.navigateToUrl();
-    await page.waitForLoadState('networkidle' ,{ timeout: 100000 });
+    await page.waitForLoadState('networkidle', { timeout: 100000 });
     logger.info("Going to the target application")
 });
 
@@ -20,12 +20,16 @@ When('user enters {string} into {string} placeholder', async function (value: st
     ele.inputEleUsingPlaceholder(placeholderText).fill(value);
 });
 
+When('user enters {string} into {string} textarea', async function (value: string, placeholderText: string) {
+    ele.textAreaEleUsingPlaceholder(placeholderText).fill(value);
+});
+
 When('user selects {string} from {string} dropdown', async function (dropdownValue: string, fieldLabel: string) {
-    await ele.dropdownSelectByText(fieldLabel,dropdownValue);
+    await ele.dropdownSelectByText(fieldLabel, dropdownValue);
 });
 
 When('user clicks on {string} button', async function (buttonText: string) {
-    await page.getByRole('button').getByText(buttonText).click();
+    await page.getByRole('button').getByText(buttonText).last().click();
 });
 
 When('user clicks on {string} text', async function (text: string) {
@@ -51,4 +55,23 @@ When('user clicks on the {string} toggle', async function (toggleText: string) {
 
 When('user clicks on {string} for {string} radio button', async function (option: string, radioButton: string) {
     await ele.radioButton(radioButton, option).click();
+});
+
+When('user selects {string} date from {string} field', async function (date: Date, dateField: string) {
+    await ele.dateEleCalenderIcon(dateField).click();
+    await ele.datePicker(date);
+});
+
+When('user uploads {string} file', async function (fileName: string) {
+    const currentRepo = path.join(__dirname, '../');
+    const infoFilePath = path.join(currentRepo, '/helper/attachments/');
+    const filePath = path.join(infoFilePath, fileName);
+    const fileInput = await page.locator('input[type="file"]');
+    await fileInput.setInputFiles(filePath);
+});
+
+When('user closes the notification banner', async function () {
+    if(expect (ele.toastBannerCloseIcon().isVisible())){
+        await ele.toastBannerCloseIcon().click();
+    }
 });

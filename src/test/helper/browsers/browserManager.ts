@@ -15,7 +15,8 @@ function headlessStatus(): boolean {
 }
 const options: LaunchOptions = {
     headless: headlessStatus(),
-    timeout: 100000
+    timeout: 100000,
+    args: ['--start-fullscreen']
 }
 export const invokeBrowser = () => {
     let browserType = typeof (process.env.npm_config_BROWSER) === "string" ? process.env.npm_config_BROWSER : process.env.BROWSER;

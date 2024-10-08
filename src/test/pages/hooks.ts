@@ -23,34 +23,51 @@ BeforeAll(async function () {
 
     getEnv();
     browser = await invokeBrowser();
-    const browserInfo = { name: browser.browserType().name(), version: browser.version() };
-    const platformInfo = { name: os.platform(), version: os.release() };
-    const info = { browser: browserInfo, platform: platformInfo };
-    const currentRepo = path.join(__dirname,'../');
-    const infoFilePath = path.join(currentRepo,'/helper/testData/systemInfo.json');
-    await fs.writeJson(infoFilePath, info);
-});
 
-
-/* starts the recording of the video before the start of the scenario in the specified path 'dir' */
-Before(async function ({ pickle }) {
-    
-    let scenarioName = pickle.name + pickle.id;
     context = await browser.newContext({
         recordVideo: {
             dir: "test-results/videos"
         }
     });
 
+    page = await context.newPage();
+
+    // Get the running device screen size and 
+    const screenSize = await page.evaluate(() => {
+        return {
+            width: window.screen.width,
+            height: window.screen.height,
+        };
+    });
+
+    // Set the browser viewport to the screen size
+    await page.setViewportSize({ width: screenSize.width, height: screenSize.height });
+
+    // Get the browser and platform details for the html report
+    const browserInfo = { name: browser.browserType().name(), version: browser.version() };
+    const platformInfo = { name: os.platform(), version: os.release() };
+    const info = { browser: browserInfo, platform: platformInfo };
+
+    // Access the systemInfo.json file and update the values for the html report
+    const currentRepo = path.join(__dirname, '../');
+    const infoFilePath = path.join(currentRepo, '/helper/testData/systemInfo.json');
+    await fs.writeJson(infoFilePath, info);
+
+});
+
+
+/* starts the recording of the video before the start of the scenario in the specified path 'dir' */
+Before(async function ({ pickle }) {
+
+    let scenarioName = pickle.name + pickle.id;
     await context.tracing.start({
         name: scenarioName,
         title: pickle.name,
         sources: true,
         screenshots: true,
         snapshots: true
-    })
+    });
 
-    page = await context.newPage();
     logger = createLogger(options(scenarioName));
 
 });
@@ -61,8 +78,8 @@ AfterStep(async function ({ pickle }) {
     // to take SS after each step and save it the specified path
     const img = await page.screenshot({ path: "./ScreenShots/" + scenarioName + ".png", type: "png" });
     // attach the SS to html report
-    await this.attach(img, "image/png");
-    await page.waitForLoadState('networkidle' ,{ timeout: 100000 });
+    this.attach(img, "image/png");
+    await page.waitForLoadState('networkidle', { timeout: 100000 });
 
 
 });

@@ -17,7 +17,7 @@ Then('assert that {string} dropdown has {string} value', async function (fieldLa
 });
 
 Then('assert that {string} text is displayed', async function (text: string) {
-    await expect(ele.eleUsingText(text)).toBeVisible( {timeout: 10000});
+    await expect(ele.eleUsingText(text)).toBeVisible({ timeout: 10000 });
 });
 
 Then('assert that {string} text is not displayed', async function (text: string) {
@@ -25,8 +25,19 @@ Then('assert that {string} text is not displayed', async function (text: string)
 });
 
 Then('wait for {int} seconds', async function (waitTime: number) {
-    await page.waitForTimeout(waitTime*1000);});
+    await page.waitForTimeout(waitTime * 1000);
+});
 
 Then('assert that {string} status banner with {string} message is displayed', async function (status: string, message: string) {
     await expect(ele.toastMessage(status, message)).toBeVisible();
+});
+
+Then('wait for the spinner to close', async function () {
+    if (ele.loadingSpinner() != undefined) {
+        await ele.loadingSpinner().waitFor({ state: 'hidden', timeout: 5000 });
+    }
+});
+
+Then('assert that below table is displayed', async function (dataTable) {
+    
 });

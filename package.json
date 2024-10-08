@@ -41,6 +41,7 @@
     "multiple-cucumber-html-reporter": "^3.5.0",
     "os": "^0.1.2",
     "pactum": "^3.7.0",
+    "screen-resolution": "^1.0.0",
     "ts-node": "^10.9.1",
     "winston": "^3.11.0"
   }
