@@ -98,12 +98,11 @@ After(async function ({ pickle, result }) {
         const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`
         this.attach(`Trace file: ${traceFileLink}`, 'text/html');
     }
-    await page.close();
-    await context.close();
 });
 
 AfterAll(async function () {
-
+    await page.close();
+    await context.close();
     await browser.close();
     logger.close();
 

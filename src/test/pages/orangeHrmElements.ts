@@ -21,12 +21,19 @@ const monthSelector = (month: string) => page.locator(`//div[contains(@class,"in
 const yearDropdown = () => page.locator(`//div[contains(@class,"input-calendar")]//div[contains(@class,"year")]//i`);
 const yearSelector = (year: number) => page.locator(`//div[contains(@class,"input-calendar")]//li[contains(@class,"selector-year")]//ul//li[text()="${year}"]`);
 const dateSelector = (date: number) => page.locator(`//div[contains(@class,"input-calendar")]//div[contains(@class,"dates")]//div[text()="${date}"]`);
+
+
 // below Elements handle specific elements in the application
 export const sideMenuExpandCollapseButton = () => page.locator(`//button[contains(@class,"main-menu-button")]//i`);
 export const userDropdownIcon = () => page.locator(`//*[contains(@class,"userdropdown-icon")]`);
 export const toastMessage = (status: string, message: string) => page.locator(`//div[contains(@class,"toast-content")]//p[text()="${status}"]/following-sibling::p[text()="${message}"]`);
 export const toastBannerCloseIcon = () => page.locator(`//div[contains(@class,"toast-close") and @role="button"]`);
 export const loadingSpinner = () => page.locator(`//div[@class="oxd-loading-spinner"]`);
+export const tableHeaderCheckbox = () => page.locator(`//div[@class="oxd-table-header"]//input[@type="checkbox"]`);
+export const tableBodyCheckbox = () => page.locator(`//div[@class="oxd-table-body"]//input[@type="checkbox"]`);
+export const tableEditIcon = () => page.locator(`//div[@class="oxd-table-body"]//i[contains(@class,"pencil")]`);
+export const tableDeleteIcon = () => page.locator(`//div[@class="oxd-table-body"]//i[contains(@class,"trash")]`);
+
 
 export const dropdownSelectByText = async (dropdownName: string, dropdownValue: string) => {
     await dropdownIconUsingLabel(dropdownName).click();
@@ -49,23 +56,23 @@ export const sideMenuClick = async (state: string) => {
 export const datePicker = async (date: Date) => {
 
     console.log(date);
-    let [y,d,m] = String(date).split('-');
+    let [y, d, m] = String(date).split('-');
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
-        
-    let month: string = monthNames[Number(m) - 1]; 
+
+    let month: string = monthNames[Number(m) - 1];
     console.log(month);
     await monthDropdown().click();
     await monthSelector(month).scrollIntoViewIfNeeded({ timeout: 5000 });
     await monthSelector(month).click();
-    await (expect (monthSelector(month)).toBeHidden());
+    await (expect(monthSelector(month)).toBeHidden());
 
     // let y = date.getFullYear();
     console.log(y);
     await yearDropdown().click();
     await yearSelector(Number(y)).scrollIntoViewIfNeeded({ timeout: 5000 });
     await yearSelector(Number(y)).click();
-    await (expect (yearSelector(Number(y))).toBeHidden());
+    await (expect(yearSelector(Number(y))).toBeHidden());
 
     // let d = date.getDate();
     console.log(d);
@@ -73,4 +80,27 @@ export const datePicker = async (date: Date) => {
     await dateSelector(Number(d)).click();
 
 
+}
+
+export const getGridData = async () => {
+    let gridData: string[][] = [];
+    const rows = page.locator(`//div[@class="oxd-table-body"]//div[@role="row"]`);
+    const rowCount = await rows.count();
+
+    for (let rowCounter = 0; rowCounter < rowCount; rowCounter++) {
+
+        let row = await rows.nth(rowCounter);
+        await row.scrollIntoViewIfNeeded({ timeout: 5000 });
+        let cells = await row.locator(`//div[@role="cell"]`);
+        let cellCount = await cells.count();
+
+        let r: string[] = [];
+        for (let cellCounter = 0; cellCounter < cellCount; cellCounter++) {
+            let cellContent = await cells.nth(cellCounter).locator('//div').first().innerText();
+            r.push(cellContent);
+
+        }
+        gridData.push(r);
+    }
+    return gridData;
 }

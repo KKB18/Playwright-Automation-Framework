@@ -33,7 +33,7 @@ When('user clicks on {string} button', async function (buttonText: string) {
 });
 
 When('user clicks on {string} text', async function (text: string) {
-    await page.getByText(text).click();
+    await page.getByText(text).first().click();
 });
 
 When('user clicks on user dropdown icon', async function () {
@@ -71,7 +71,19 @@ When('user uploads {string} file', async function (fileName: string) {
 });
 
 When('user closes the notification banner', async function () {
-    if(expect (ele.toastBannerCloseIcon().isVisible())){
+    if (expect(ele.toastBannerCloseIcon().isVisible())) {
         await ele.toastBannerCloseIcon().click();
+    }
+});
+
+When('user clicks on checkbox in the table for row {int}', async function (row: number) {
+    await ele.tableBodyCheckbox().nth(row).click();
+});
+
+When('user clicks on {string} in the table for row {int}', async function (action: "edit" | "delete", row: number) {
+    if(action === "edit") {
+        await ele.tableEditIcon().nth(row).click();
+    } else {
+        await ele.tableDeleteIcon().nth(row).click();
     }
 });

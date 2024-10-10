@@ -1,4 +1,4 @@
-import { Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
+import { DataTable, Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
 import { PageObject } from "../pages/pageObject";
 import { page, logger, browser, context } from '../pages/browser';
@@ -38,6 +38,46 @@ Then('wait for the spinner to close', async function () {
     }
 });
 
-Then('assert that below table is displayed', async function (dataTable) {
-    
+Then('assert that below table is displayed', async function (table: DataTable) {
+    let flag = false;
+    const rows = table.rows();
+    let dataFromGrid: string[][] = await ele.getGridData();
+
+    for (let i = 0; i < rows.length; i++) {
+        const columnsToValidate = rows[i];
+
+        for (let j = 0; j < rows.length; j++) {
+            let columnsFromGrid = dataFromGrid[j];
+            try {
+                for (let k = 0; k < columnsToValidate.length; k++) {
+
+                    switch (columnsToValidate[k]) {
+                        case "<<ignore>>": {
+                            break;
+                        }
+                        case "<<not-empty>>": {
+                            expect(columnsToValidate[k]).not.toBe("");
+                            break;
+                        }
+                        default: {
+                            expect(columnsToValidate[k]).toBe(columnsFromGrid[k]);
+                        }
+                    }
+                    if (k == (columnsToValidate.length - 1)) {
+                        flag = true;
+                    }
+                }
+            }
+            catch (e) {
+                flag = false;
+            }
+            if (flag == true) {
+                break;
+            }
+            if ((j === (dataFromGrid.length - 1)) && flag === false) {
+                throw new Error("Could not find a match for row - " + (i + 1));
+            }
+
+        }
+    }
 });

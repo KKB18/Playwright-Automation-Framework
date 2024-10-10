@@ -9,22 +9,20 @@ Feature: User Login
         When user clicks on "Login" button
         Then assert that "Login" text is not displayed
 
-
     Scenario: temp
         When user "expands" the side menu
-            And user clicks on "Recruitment" text
+            And user clicks on "PIM" text
             And user "collapses" the side menu
-        Then assert that "Candidates" text is displayed
-        When user selects "2010-10-11" date from "Date of Application" field
-            And user enters "admin123" into "Candidate Name" field
-            And user enters "2012-11-12" into "To" placeholder
+        Then assert that "Employee Information" text is displayed
+        When user selects "Engineering" from "Sub Unit" dropdown
+            And user clicks on "Search" button
+        Then assert that " (2) Records Found" text is displayed
+            # And user enters "admin123" into "Candidate Name" field
+            # And user enters "2012-11-12" into "To" placeholder
         Then assert that below table is displayed
-            | CheckBox | Id   | First Name | Last Name | Job Title         | Employment Status   | Sub Unit          | Supervisor | Actions |
-            | {ignore} | 0034 | Russel     | Hamilton  | Software Engineer | Full-Time Permanent | Development       |            |         |
-            | {ignore} | 0042 | Rebecca    | Harmony   | QA Engineer       | Full-Time Contract  | Quality Assurance |            |         |
-
-
-
+            | CheckBox   | Id   | First Name | Last Name | Job Title         | Employment Status   | Sub Unit          | Supervisor | Actions    |
+            | <<ignore>> | 0034 | Russel     | Hamilton  | Software Engineer | Full-Time Permanent | Development       | <<ignore>> | <<ignore>> |
+            | <<ignore>> | 0042 | Rebecca    | Harmony   | QA Engineer       | Full-Time Contract  | Quality Assurance | <<ignore>> | <<ignore>> |
 
     @Emp
     Scenario: Create and search new Employee in PIM module
@@ -67,6 +65,20 @@ Feature: User Login
         Then assert that "Success" status banner with "Successfully Saved" message is displayed
         When user closes the notification banner
         Then wait for the spinner to close
+            And assert that below table is displayed
+                | CheckBox   | File Name         | Description            | Size          | Type          | Date Added | Actions |
+                | <<ignore>> | AddressProof.docx | Address proof uploaded | <<not-empty>> | <<not-empty>> | 2024-10-10 | Admin   |
+        When user "expands" the side menu
+            And user clicks on "PIM" text
+            And user "collapses" the side menu
+        Then assert that "Employee Information" text is displayed
+        When user enters "Test Automation User" into "Employee Name" field
+            And user clicks on "Search" button
+        Then assert that " (1) Record Found" text is displayed
+            And assert that below table is displayed
+                | CheckBox   | Id        | First Name      | Last Name | Job Title | Employment Status | Sub Unit | Supervisor | Actions    |
+                | <<ignore>> | 123456789 | Test Automation | User      |           |                   |          | <<ignore>> | <<ignore>> |
+
 
     Scenario: Create and search new user in Admin module
         When user "expands" the side menu
