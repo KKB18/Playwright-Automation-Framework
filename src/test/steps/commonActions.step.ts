@@ -29,7 +29,11 @@ When('user selects {string} from {string} dropdown', async function (dropdownVal
 });
 
 When('user clicks on {string} button', async function (buttonText: string) {
-    await page.getByRole('button').getByText(buttonText).last().click();
+    await page.getByRole('button').getByText(buttonText).nth(0).click();
+});
+
+When("user clicks on {string} button's {int} occurrence", async function (buttonText: string, n: number) {
+    await page.getByRole('button').getByText(buttonText).nth(n - 1).click();
 });
 
 When('user clicks on {string} text', async function (text: string) {
@@ -81,9 +85,9 @@ When('user clicks on checkbox in the table for row {int}', async function (row: 
 });
 
 When('user clicks on {string} in the table for row {int}', async function (action: "edit" | "delete", row: number) {
-    if(action === "edit") {
-        await ele.tableEditIcon().nth(row).click();
+    if (action === "edit") {
+        await ele.tableEditIcon().nth(row - 1).click();
     } else {
-        await ele.tableDeleteIcon().nth(row).click();
+        await ele.tableDeleteIcon().nth(row - 1).click();
     }
 });

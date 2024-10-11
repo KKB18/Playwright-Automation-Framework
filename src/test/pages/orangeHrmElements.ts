@@ -55,27 +55,21 @@ export const sideMenuClick = async (state: string) => {
 
 export const datePicker = async (date: Date) => {
 
-    console.log(date);
     let [y, d, m] = String(date).split('-');
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
 
     let month: string = monthNames[Number(m) - 1];
-    console.log(month);
     await monthDropdown().click();
     await monthSelector(month).scrollIntoViewIfNeeded({ timeout: 5000 });
     await monthSelector(month).click();
     await (expect(monthSelector(month)).toBeHidden());
 
-    // let y = date.getFullYear();
-    console.log(y);
     await yearDropdown().click();
     await yearSelector(Number(y)).scrollIntoViewIfNeeded({ timeout: 5000 });
     await yearSelector(Number(y)).click();
     await (expect(yearSelector(Number(y))).toBeHidden());
 
-    // let d = date.getDate();
-    console.log(d);
     await dateSelector(Number(d)).scrollIntoViewIfNeeded({ timeout: 5000 });
     await dateSelector(Number(d)).click();
 

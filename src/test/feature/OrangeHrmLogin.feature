@@ -11,26 +11,25 @@ Feature: User Login
     @a
     Scenario: temp
         When user "expands" the side menu
-            And user clicks on "Admin" text
+            And user clicks on "PIM" text
             And user "collapses" the side menu
-        Then assert that "System Users" text is displayed
-            # When user selects "Engineering" from "Sub Unit" dropdown
-            #     And user clicks on "Search" button
-            # Then assert that " (4) Records Found" text is displayed
-            # And user enters "admin123" into "Candidate Name" field
-            # And user enters "2012-11-12" into "To" placeholder
-            # | CheckBox   | Id   | First Name | Last Name | Job Title         | Employment Status   | Sub Unit          | Supervisor | Actions    |
-            # | <<ignore>> | 0034 | Russel     | Hamilton  | Software Engineer | Full-Time Permanent | Development       | <<ignore>> | <<ignore>> |
-            # | <<ignore>> | 0042 | Rebecca    | Harmony   | QA Engineer       | Full-Time Contract  | Quality Assurance | <<ignore>> | <<ignore>> |
+        Then assert that "Employee Information" text is displayed
+        When user enters "Test Automation User" into "Employee Name" field
+            And user clicks on "Search" button
+        Then assert that "(1) Record Found" text is displayed
+            And assert that below table is displayed
+                | CheckBox   | Id        | First Name      | Last Name | Job Title | Employment Status | Sub Unit | Supervisor | Actions    |
+                | <<ignore>> | 123456789 | Test Automation | User      |           |                   |          | <<ignore>> | <<ignore>> |
+        When user clicks on "delete" in the table for row 1
+        Then assert that "Are you Sure?" text is displayed
+            And assert that "The selected record will be permanently deleted. Are you sure you want to continue?" text is displayed
+        When user clicks on "Yes, Delete" button
+        Then assert that "Success" status banner with "Successfully Deleted" message is displayed
+        When user closes the notification banner
+            And user clicks on "Search" button
+        Then assert that "Info" status banner with "No Records Found" message is displayed
 
-        Then assert that below table is displayed
-            | CheckBox   | Username    | User Role | Employee Name | Status  | Actions    |
-            | <<ignore>> | Admin       | Admin     | Rohini user   | Enabled | <<ignore>> |
-            | <<ignore>> | JohnDoeDoe  | ESS       | John Doe      | Enabled | <<ignore>> |
-            | <<ignore>> | bilalkhan   | ESS       | bilal bukhari | Enabled | <<ignore>> |
-            | <<ignore>> | hibabukhari | ESS       | hiba bukhari  | Enabled | <<ignore>> |
-
-    @Emp
+    @b
     Scenario: Create and search new Employee in PIM module
         When user "expands" the side menu
             And user clicks on "PIM" text
@@ -58,48 +57,34 @@ Feature: User Login
             And user selects "2010-10-11" date from "License Expiry Date" field
             And user selects "Indian" from "Nationality" dropdown
             And user selects "Single" from "Marital Status" dropdown
-            And user selects "1990-28-3" date from "License Expiry Date" field
+            And user selects "1995-28-03" date from "License Expiry Date" field
             And user clicks on "Male" for "Gender" radio button
+            And user clicks on "Save" button's 1 occurrence
+        Then assert that "Success" status banner with "Successfully Updated" message is displayed
+        When user closes the notification banner
             And user selects "A+" from "Blood Type" dropdown
-            And user clicks on "Save" button
+            And user enters "Blood Test" into "Test_Field" field
+            And user clicks on "Save" button's 2 occurrence
         Then assert that "Success" status banner with "Successfully Saved" message is displayed
         When user closes the notification banner
             And user clicks on "Add" button
             And user uploads "AddressProof.docx" file
             And user enters "Address proof uploaded" into "Type comment here" textarea
-            And user clicks on "Save" button
+            And user clicks on "Save" button's 3 occurrence
         Then assert that "Success" status banner with "Successfully Saved" message is displayed
         When user closes the notification banner
         Then wait for the spinner to close
             And assert that below table is displayed
                 | CheckBox   | File Name         | Description            | Size          | Type          | Date Added | Actions |
-                | <<ignore>> | AddressProof.docx | Address proof uploaded | <<not-empty>> | <<not-empty>> | 2024-10-10 | Admin   |
+                | <<ignore>> | AddressProof.docx | Address proof uploaded | <<not-empty>> | <<not-empty>> | 2024-11-10 | Admin   |
         When user "expands" the side menu
             And user clicks on "PIM" text
             And user "collapses" the side menu
         Then assert that "Employee Information" text is displayed
         When user enters "Test Automation User" into "Employee Name" field
             And user clicks on "Search" button
-        Then assert that " (1) Record Found" text is displayed
+        Then assert that "(1) Record Found" text is displayed
             And assert that below table is displayed
                 | CheckBox   | Id        | First Name      | Last Name | Job Title | Employment Status | Sub Unit | Supervisor | Actions    |
                 | <<ignore>> | 123456789 | Test Automation | User      |           |                   |          | <<ignore>> | <<ignore>> |
-
-
-    Scenario: Create and search new user in Admin module
-        When user "expands" the side menu
-            And user clicks on "Admin" text
-            And user "collapses" the side menu
-        Then assert that "System Users" text is displayed
-        When user clicks on "Add" button
-        Then assert that "Add User" text is displayed
-        When user selects "ESS" from "User Role" dropdown
-        When user enters "kitty_k" into "Username" field
-            And user selects "ESS" from "User Role" dropdown
-                # And user enters "kitty k samuel" into "Employee Name" field
-            And user selects "Enabled" from "Status" dropdown
-        When user clicks on "Search" button
-        Then assert that "(1) Record Found" text is displayed
-        When user clicks on user dropdown icon
-            And user clicks on "Logout" text
-        Then assert that "Login" text is displayed
+        When user clicks on "edit" in the table for row 1

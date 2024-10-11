@@ -29,7 +29,7 @@ Then('wait for {int} seconds', async function (waitTime: number) {
 });
 
 Then('assert that {string} status banner with {string} message is displayed', async function (status: string, message: string) {
-    await expect(ele.toastMessage(status, message)).toBeVisible();
+    await expect(ele.toastMessage(status, message).first()).toBeVisible();
 });
 
 Then('wait for the spinner to close', async function () {

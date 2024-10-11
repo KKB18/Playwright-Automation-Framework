@@ -24,6 +24,22 @@ BeforeAll(async function () {
     getEnv();
     browser = await invokeBrowser();
 
+    // Get the browser and platform details for the html report
+    const browserInfo = { name: browser.browserType().name(), version: browser.version() };
+    const platformInfo = { name: os.platform(), version: os.release() };
+    const info = { browser: browserInfo, platform: platformInfo };
+
+    // Access the systemInfo.json file and update the values for the html report
+    const currentRepo = path.join(__dirname, '../');
+    const infoFilePath = path.join(currentRepo, '/helper/testData/systemInfo.json');
+    await fs.writeJson(infoFilePath, info);
+
+});
+
+
+/* starts the recording of the video before the start of the scenario in the specified path 'dir' */
+Before(async function ({ pickle }) {
+
     context = await browser.newContext({
         recordVideo: {
             dir: "test-results/videos"
@@ -41,24 +57,7 @@ BeforeAll(async function () {
     });
 
     // Set the browser viewport to the screen size
-    await page.setViewportSize({ width: screenSize.width, height: screenSize.height });
-
-    // Get the browser and platform details for the html report
-    const browserInfo = { name: browser.browserType().name(), version: browser.version() };
-    const platformInfo = { name: os.platform(), version: os.release() };
-    const info = { browser: browserInfo, platform: platformInfo };
-
-    // Access the systemInfo.json file and update the values for the html report
-    const currentRepo = path.join(__dirname, '../');
-    const infoFilePath = path.join(currentRepo, '/helper/testData/systemInfo.json');
-    await fs.writeJson(infoFilePath, info);
-
-});
-
-
-/* starts the recording of the video before the start of the scenario in the specified path 'dir' */
-Before(async function ({ pickle }) {
-
+    await page.setViewportSize({ width: screenSize.width, height: screenSize.height });    
     let scenarioName = pickle.name + pickle.id;
     await context.tracing.start({
         name: scenarioName,
@@ -98,11 +97,12 @@ After(async function ({ pickle, result }) {
         const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`
         this.attach(`Trace file: ${traceFileLink}`, 'text/html');
     }
+    await page.close();
+    await context.close();
 });
 
 AfterAll(async function () {
-    await page.close();
-    await context.close();
+
     await browser.close();
     logger.close();
 
