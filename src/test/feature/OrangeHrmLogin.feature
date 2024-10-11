@@ -8,21 +8,27 @@ Feature: User Login
             And user enters "admin123" into "Password" field
         When user clicks on "Login" button
         Then assert that "Login" text is not displayed
-
+    @a
     Scenario: temp
         When user "expands" the side menu
-            And user clicks on "PIM" text
+            And user clicks on "Admin" text
             And user "collapses" the side menu
-        Then assert that "Employee Information" text is displayed
-        When user selects "Engineering" from "Sub Unit" dropdown
-            And user clicks on "Search" button
-        Then assert that " (2) Records Found" text is displayed
+        Then assert that "System Users" text is displayed
+            # When user selects "Engineering" from "Sub Unit" dropdown
+            #     And user clicks on "Search" button
+            # Then assert that " (4) Records Found" text is displayed
             # And user enters "admin123" into "Candidate Name" field
             # And user enters "2012-11-12" into "To" placeholder
+            # | CheckBox   | Id   | First Name | Last Name | Job Title         | Employment Status   | Sub Unit          | Supervisor | Actions    |
+            # | <<ignore>> | 0034 | Russel     | Hamilton  | Software Engineer | Full-Time Permanent | Development       | <<ignore>> | <<ignore>> |
+            # | <<ignore>> | 0042 | Rebecca    | Harmony   | QA Engineer       | Full-Time Contract  | Quality Assurance | <<ignore>> | <<ignore>> |
+
         Then assert that below table is displayed
-            | CheckBox   | Id   | First Name | Last Name | Job Title         | Employment Status   | Sub Unit          | Supervisor | Actions    |
-            | <<ignore>> | 0034 | Russel     | Hamilton  | Software Engineer | Full-Time Permanent | Development       | <<ignore>> | <<ignore>> |
-            | <<ignore>> | 0042 | Rebecca    | Harmony   | QA Engineer       | Full-Time Contract  | Quality Assurance | <<ignore>> | <<ignore>> |
+            | CheckBox   | Username    | User Role | Employee Name | Status  | Actions    |
+            | <<ignore>> | Admin       | Admin     | Rohini user   | Enabled | <<ignore>> |
+            | <<ignore>> | JohnDoeDoe  | ESS       | John Doe      | Enabled | <<ignore>> |
+            | <<ignore>> | bilalkhan   | ESS       | bilal bukhari | Enabled | <<ignore>> |
+            | <<ignore>> | hibabukhari | ESS       | hiba bukhari  | Enabled | <<ignore>> |
 
     @Emp
     Scenario: Create and search new Employee in PIM module

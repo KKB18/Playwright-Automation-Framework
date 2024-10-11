@@ -49,7 +49,7 @@ export const sideMenuClick = async (state: string) => {
     } else if (state == "expands" && currentState.indexOf("right") !== -1) {
         await sideMenuExpandCollapseButton().click();
     } else if (currentState === "NA") {
-        new Error("Not able to interact with side menu button");
+        throw new Error("Not able to interact with side menu button");
     }
 }
 
@@ -88,19 +88,14 @@ export const getGridData = async () => {
     const rowCount = await rows.count();
 
     for (let rowCounter = 0; rowCounter < rowCount; rowCounter++) {
-
-        let row = await rows.nth(rowCounter);
+        const row = rows.nth(rowCounter);
         await row.scrollIntoViewIfNeeded({ timeout: 5000 });
-        let cells = await row.locator(`//div[@role="cell"]`);
-        let cellCount = await cells.count();
 
-        let r: string[] = [];
-        for (let cellCounter = 0; cellCounter < cellCount; cellCounter++) {
-            let cellContent = await cells.nth(cellCounter).locator('//div').first().innerText();
-            r.push(cellContent);
-
-        }
-        gridData.push(r);
+        // Locate all cells within the current row
+        const cellContents = await row.locator(`//div[@role="cell"]/div`).allInnerTexts();
+        
+        // Push the array of cell contents to the gridData array
+        gridData.push(cellContents);
     }
     return gridData;
 }

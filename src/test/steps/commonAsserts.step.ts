@@ -39,45 +39,26 @@ Then('wait for the spinner to close', async function () {
 });
 
 Then('assert that below table is displayed', async function (table: DataTable) {
-    let flag = false;
     const rows = table.rows();
-    let dataFromGrid: string[][] = await ele.getGridData();
+    const dataFromGrid: string[][] = await ele.getGridData();
 
-    for (let i = 0; i < rows.length; i++) {
-        const columnsToValidate = rows[i];
-
-        for (let j = 0; j < rows.length; j++) {
-            let columnsFromGrid = dataFromGrid[j];
-            try {
-                for (let k = 0; k < columnsToValidate.length; k++) {
-
-                    switch (columnsToValidate[k]) {
-                        case "<<ignore>>": {
-                            break;
-                        }
-                        case "<<not-empty>>": {
-                            expect(columnsToValidate[k]).not.toBe("");
-                            break;
-                        }
-                        default: {
-                            expect(columnsToValidate[k]).toBe(columnsFromGrid[k]);
-                        }
-                    }
-                    if (k == (columnsToValidate.length - 1)) {
-                        flag = true;
-                    }
+    rows.forEach((row, rowIndex) => {
+        console.log(row + " " + rowIndex)
+        const matchFound = dataFromGrid.some(gridRow => {
+            return row.every((column, columnIndex) => {                
+                switch (column) {
+                    case "<<ignore>>":
+                        return true; // Skip validation
+                    case "<<not-empty>>":
+                        return gridRow[columnIndex] !== ""; // Ensure it's not empty
+                    default:
+                        return column === gridRow[columnIndex]; // Match the exact value
                 }
-            }
-            catch (e) {
-                flag = false;
-            }
-            if (flag == true) {
-                break;
-            }
-            if ((j === (dataFromGrid.length - 1)) && flag === false) {
-                throw new Error("Could not find a match for row - " + (i + 1));
-            }
+            });
+        });
 
+        if (!matchFound) {
+            throw new Error(`Could not find a match for row - ${rowIndex + 1} `);
         }
-    }
+    });
 });
