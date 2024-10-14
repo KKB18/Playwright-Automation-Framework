@@ -48,6 +48,7 @@ Before(async function ({ pickle }) {
 
     page = await context.newPage();
 
+    
     // Get the running device screen size and 
     const screenSize = await page.evaluate(() => {
         return {

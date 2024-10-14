@@ -91,3 +91,12 @@ When('user clicks on {string} in the table for row {int}', async function (actio
         await ele.tableDeleteIcon().nth(row - 1).click();
     }
 });
+
+When('user clicks on {string} button title', async function (buttonText: string) {
+    await page.getByTitle(buttonText).click();
+});
+
+Given('user switches to browser tab {int}', async function (tabNumber: number) {
+    page = await context.pages().at(tabNumber - 1);
+    await tab?.bringToFront();
+});

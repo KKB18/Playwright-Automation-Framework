@@ -9,7 +9,7 @@ Feature: User Login
         When user clicks on "Login" button
         Then assert that "Login" text is not displayed
     @a
-    Scenario: temp
+    Scenario: Delete the employee if it exists
         When user "expands" the side menu
             And user clicks on "PIM" text
             And user "collapses" the side menu
@@ -88,3 +88,33 @@ Feature: User Login
                 | CheckBox   | Id        | First Name      | Last Name | Job Title | Employment Status | Sub Unit | Supervisor | Actions    |
                 | <<ignore>> | 123456789 | Test Automation | User      |           |                   |          | <<ignore>> | <<ignore>> |
         When user clicks on "edit" in the table for row 1
+
+    @c
+    Scenario: Edit the employee if it exists
+        When user "expands" the side menu
+            And user clicks on "PIM" text
+            And user "collapses" the side menu
+        Then assert that "Employee Information" text is displayed
+        When user enters "Test Automation User" into "Employee Name" field
+            And user clicks on "Search" button
+        Then assert that "(1) Record Found" text is displayed
+            And assert that below table is displayed
+                | CheckBox   | Id        | First Name      | Last Name | Job Title | Employment Status | Sub Unit | Supervisor | Actions    |
+                | <<ignore>> | 123456789 | Test Automation | User      |           |                   |          | <<ignore>> | <<ignore>> |
+        When user clicks on "edit" in the table for row 1
+        Then assert that "Personal Details" text is displayed
+            And assert that below table is displayed
+                | CheckBox   | File Name         | Description            | Size          | Type          | Date Added     | Added By | Actions |
+                | <<ignore>> | AddressProof.docx | Address proof uploaded | <<not-empty>> | <<not-empty>> | <<today-date>> | Admin    |         |
+
+    @d
+    Scenario: Switching between Tabs
+        When user "expands" the side menu
+            And user clicks on "PIM" text
+            And user "collapses" the side menu
+        Then assert that "Employee Information" text is displayed
+        When user clicks on "Help" button title
+        Given user switches to browser tab 2
+        Then assert that "Admin" text is displayed
+        Given user switches to browser tab 1
+        Then assert that "Employee Information" text is displayed
