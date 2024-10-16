@@ -1,7 +1,7 @@
 import { Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
 import { PageObject } from "../pages/pageObject";
-import { page, logger, browser, context } from '../pages/browser';
+import { page, logger, browser, context, openTab } from '../pages/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
 import * as ele from "../pages/orangeHrmElements";
@@ -97,6 +97,5 @@ When('user clicks on {string} button title', async function (buttonText: string)
 });
 
 Given('user switches to browser tab {int}', async function (tabNumber: number) {
-    page = await context.pages().at(tabNumber - 1);
-    await tab?.bringToFront();
+    await openTab(tabNumber);
 });
