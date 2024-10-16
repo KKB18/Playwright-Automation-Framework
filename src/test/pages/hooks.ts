@@ -1,16 +1,16 @@
 import { BeforeAll, AfterAll, Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
-import { Browser, BrowserContext, Page, chromium } from '@playwright/test';
-import { invokeBrowser } from "../helper/browsers/browserManager";
+import { getPage, launchBrowser, setBrowserPageContext } from '../helper/browsers/browser';
 import { getEnv } from "../helper/env/env";
 import { Logger, createLogger } from 'winston';
 import { options } from "../helper/logger/logger";
 import fs from "fs-extra";
 import * as os from "os"
 import path from "path";
+import { Browser, BrowserContext, Page } from "playwright/test";
 
-export let page: Page;
-export let context: BrowserContext;
-export let browser: Browser;
+let page: Page;
+let context: BrowserContext;
+let browser: Browser;
 export let logger: Logger;
 export let browserVersion: string;
 
@@ -22,8 +22,7 @@ invokeBrowser function launches the specific browser as per the value from env/.
 BeforeAll(async function () {
 
     getEnv();
-    browser = await invokeBrowser();
-
+    browser = await launchBrowser();
     // Get the browser and platform details for the html report
     const browserInfo = { name: browser.browserType().name(), version: browser.version() };
     const platformInfo = { name: os.platform(), version: os.release() };
@@ -40,15 +39,7 @@ BeforeAll(async function () {
 /* starts the recording of the video before the start of the scenario in the specified path 'dir' */
 Before(async function ({ pickle }) {
 
-    context = await browser.newContext({
-        recordVideo: {
-            dir: "test-results/videos"
-        }
-    });
-
-    page = await context.newPage();
-
-    
+    [context, page] = await setBrowserPageContext();
     // Get the running device screen size and 
     const screenSize = await page.evaluate(() => {
         return {
@@ -58,7 +49,7 @@ Before(async function ({ pickle }) {
     });
 
     // Set the browser viewport to the screen size
-    await page.setViewportSize({ width: screenSize.width, height: screenSize.height });    
+    await page.setViewportSize({ width: screenSize.width, height: screenSize.height });
     let scenarioName = pickle.name + pickle.id;
     await context.tracing.start({
         name: scenarioName,
@@ -76,11 +67,11 @@ AfterStep(async function ({ pickle }) {
 
     let scenarioName = pickle.name + pickle.id;
     // to take SS after each step and save it the specified path
+    page = await getPage();
     const img = await page.screenshot({ path: "./ScreenShots/" + scenarioName + ".png", type: "png" });
     // attach the SS to html report
     this.attach(img, "image/png");
     await page.waitForLoadState('networkidle', { timeout: 100000 });
-
 
 });
 

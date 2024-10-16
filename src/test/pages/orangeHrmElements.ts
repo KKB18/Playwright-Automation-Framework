@@ -1,5 +1,5 @@
 import { assert } from "console";
-import { page } from "./browser";
+import { page } from "../helper/browsers/browser";
 import { expect } from "playwright/test";
 
 

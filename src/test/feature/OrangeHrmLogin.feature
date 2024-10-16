@@ -115,6 +115,12 @@ Feature: User Login
         Then assert that "Employee Information" text is displayed
         When user clicks on "Help" button title
         Given user switches to browser tab 2
-        Then assert that "Admin" text is displayed
+        Then assert that "Admin User Guide" text is displayed
         Given user switches to browser tab 1
         Then assert that "Employee Information" text is displayed
+        When user enters "Test Automation User" into "Employee Name" field
+            And user clicks on "Search" button
+        Then assert that "(1) Record Found" text is displayed
+            And assert that below table is displayed
+                | CheckBox   | Id        | First Name      | Last Name | Job Title | Employment Status | Sub Unit | Supervisor | Actions    |
+                | <<ignore>> | 123456789 | Test Automation | User      |           |                   |          | <<ignore>> | <<ignore>> |

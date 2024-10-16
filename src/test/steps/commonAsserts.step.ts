@@ -1,7 +1,7 @@
 import { DataTable, Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
-import { PageObject } from "../pages/pageObject";
-import { page, logger, browser, context } from '../pages/browser';
+import { PageObject } from "../pages/pageNavigation";
+import { page, logger, browser, context } from '../helper/browsers/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
 import * as ele from "../pages/orangeHrmElements";
