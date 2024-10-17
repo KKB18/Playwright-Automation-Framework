@@ -1,6 +1,5 @@
 import { DataTable, Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
-import { PageObject } from "../pages/pageNavigation";
 import { page, logger, browser, context } from '../helper/browsers/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
@@ -80,7 +79,6 @@ Then('assert that below rows are present in the table displayed', async function
     const dataFromGrid: string[][] = await ele.getGridData();
 
     rows.forEach((row, rowIndex) => {
-        console.log(row + " " + rowIndex)
         const matchFound = dataFromGrid.some(gridRow => {
             return row.every((column, columnIndex) => {
                 switch (column) {

@@ -32,7 +32,6 @@ export const getPage = async (): Promise<Page> => {
 export const openTab = async (index: number) => {
 
     const pagesBefore = context.pages().length;
-    console.log(pagesBefore)
     if (pagesBefore < index) {
         // Perform the action that opens the new tab
         const newPage = await context.waitForEvent('page'); // Wait for the new tab to open
