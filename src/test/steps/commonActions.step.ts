@@ -98,4 +98,5 @@ When('user clicks on {string} button title', async function (buttonText: string)
 
 Given('user switches to browser tab {int}', async function (tabNumber: number) {
     await openTab(tabNumber);
+    await openTab(tabNumber);
 });

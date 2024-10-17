@@ -11,6 +11,11 @@ import { Browser, BrowserContext, Page } from "playwright/test";
 let page: Page;
 let context: BrowserContext;
 let browser: Browser;
+import { Browser, BrowserContext, Page } from "playwright/test";
+
+let page: Page;
+let context: BrowserContext;
+let browser: Browser;
 export let logger: Logger;
 export let browserVersion: string;
 
@@ -22,6 +27,7 @@ invokeBrowser function launches the specific browser as per the value from env/.
 BeforeAll(async function () {
 
     getEnv();
+    browser = await launchBrowser();
     browser = await launchBrowser();
     // Get the browser and platform details for the html report
     const browserInfo = { name: browser.browserType().name(), version: browser.version() };
@@ -40,6 +46,7 @@ BeforeAll(async function () {
 Before(async function ({ pickle }) {
 
     [context, page] = await setBrowserPageContext();
+    [context, page] = await setBrowserPageContext();
     // Get the running device screen size and 
     const screenSize = await page.evaluate(() => {
         return {
@@ -49,6 +56,7 @@ Before(async function ({ pickle }) {
     });
 
     // Set the browser viewport to the screen size
+    await page.setViewportSize({ width: screenSize.width, height: screenSize.height });
     await page.setViewportSize({ width: screenSize.width, height: screenSize.height });
     let scenarioName = pickle.name + pickle.id;
     await context.tracing.start({
@@ -65,8 +73,11 @@ Before(async function ({ pickle }) {
 
 AfterStep(async function ({ pickle }) {
 
+
+
     let scenarioName = pickle.name + pickle.id;
     // to take SS after each step and save it the specified path
+    page = await getPage();
     page = await getPage();
     const img = await page.screenshot({ path: "./ScreenShots/" + scenarioName + ".png", type: "png" });
     // attach the SS to html report
