@@ -1,5 +1,4 @@
-import { assert } from "console";
-import { page } from "../helper/browsers/browser";
+import { page } from "../browser/browser";
 import { expect } from "playwright/test";
 
 
@@ -23,7 +22,7 @@ const yearSelector = (year: number) => page.locator(`//div[contains(@class,"inpu
 const dateSelector = (date: number) => page.locator(`//div[contains(@class,"input-calendar")]//div[contains(@class,"dates")]//div[text()="${date}"]`);
 
 
-// below Elements handle specific elements in the application
+// Below Elements handle specific elements in the application
 export const sideMenuExpandCollapseButton = () => page.locator(`//button[contains(@class,"main-menu-button")]//i`);
 export const userDropdownIcon = () => page.locator(`//*[contains(@class,"userdropdown-icon")]`);
 export const toastMessage = (status: string, message: string) => page.locator(`//div[contains(@class,"toast-content")]//p[text()="${status}"]/following-sibling::p[text()="${message}"]`);
@@ -35,15 +34,19 @@ export const tableEditIcon = () => page.locator(`//div[@class="oxd-table-body"]/
 export const tableDeleteIcon = () => page.locator(`//div[@class="oxd-table-body"]//i[contains(@class,"trash")]`);
 
 
+// Function enables to user in selecting a option from the dropdown menu
 export const dropdownSelectByText = async (dropdownName: string, dropdownValue: string) => {
     await dropdownIconUsingLabel(dropdownName).click();
     await dropdownOptionUsingLabel(dropdownValue).scrollIntoViewIfNeeded({ timeout: 5000 });
     await dropdownOptionUsingLabel(dropdownValue).click();
 }
 
+// Function enables to user to interact with the Side Menu collapsable tab in the Application
 export const sideMenuClick = async (state: string) => {
     let classValue = await sideMenuExpandCollapseButton().getAttribute("class");
     let currentState = typeof (classValue) === "string" ? classValue : "NA";
+
+    // Interacts only if the required state and current state or the side menu is different
     if (state == "collapses" && currentState.indexOf("left") !== -1) {
         await sideMenuExpandCollapseButton().click();
     } else if (state == "expands" && currentState.indexOf("right") !== -1) {
@@ -53,29 +56,36 @@ export const sideMenuClick = async (state: string) => {
     }
 }
 
+// Enables the user to interact with Date picker element within the application
 export const datePicker = async (date: Date) => {
 
+    // Storing the year, date, month in their individual variables
     let [y, d, m] = String(date).split('-');
+
+    // Setting the equivalent Month text for the numeric month value
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'];
-
     let month: string = monthNames[Number(m) - 1];
+
+    // Clicks on the month dropdown and selects the specified month
     await monthDropdown().click();
     await monthSelector(month).scrollIntoViewIfNeeded({ timeout: 5000 });
     await monthSelector(month).click();
     await (expect(monthSelector(month)).toBeHidden());
 
+    // Clicks on the year dropdown and selects the specified year
     await yearDropdown().click();
     await yearSelector(Number(y)).scrollIntoViewIfNeeded({ timeout: 5000 });
     await yearSelector(Number(y)).click();
     await (expect(yearSelector(Number(y))).toBeHidden());
 
+    // Clicks on the specified date
     await dateSelector(Number(d)).scrollIntoViewIfNeeded({ timeout: 5000 });
     await dateSelector(Number(d)).click();
 
-
 }
 
+// Function extracts the table date from the current page and stores it in the 2D array
 export const getGridData = async () => {
     let gridData: string[][] = [];
     const rows = page.locator(`//div[@class="oxd-table-body"]//div[@role="row"]`);

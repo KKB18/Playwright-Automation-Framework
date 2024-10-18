@@ -1,5 +1,5 @@
 import { BeforeAll, AfterAll, Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
-import { getPage, launchBrowser, setBrowserPageContext } from '../helper/browsers/browser';
+import { getPage, launchBrowser, setBrowserPageContext } from '../browser/browser';
 import { getEnv } from "../helper/env/env";
 import { Logger, createLogger } from 'winston';
 import { options } from "../helper/logger/logger";

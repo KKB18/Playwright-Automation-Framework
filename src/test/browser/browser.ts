@@ -1,9 +1,7 @@
 import { Browser, BrowserContext, Page } from "playwright/test";
 import { invokeBrowser } from "./browserManager";
-import { logger } from "../../pages/hooks";
-import { url } from "inspector";
+import { logger } from "../pages/hooks";
 
-// import { browser, page, context, logger } from './hooks';
 let page: Page;
 let context: BrowserContext;
 let browser: Browser;

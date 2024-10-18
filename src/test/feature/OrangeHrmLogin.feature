@@ -75,8 +75,8 @@ Feature: User Login
         When user closes the notification banner
         Then wait for the spinner to close
             And assert that below table is displayed
-                | CheckBox   | File Name         | Description            | Size          | Type          | Date Added | Actions |
-                | <<ignore>> | AddressProof.docx | Address proof uploaded | <<not-empty>> | <<not-empty>> | 2024-11-10 | Admin   |
+                | CheckBox   | File Name         | Description            | Size          | Type          | Date Added     | Added By | Actions |
+                | <<ignore>> | AddressProof.docx | Address proof uploaded | <<not-empty>> | <<not-empty>> | <<today-date>> | Admin    |         |
         When user "expands" the side menu
             And user clicks on "PIM" text
             And user "collapses" the side menu
