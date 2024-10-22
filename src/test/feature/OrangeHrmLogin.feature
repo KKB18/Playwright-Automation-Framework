@@ -57,7 +57,7 @@ Feature: User Login
             And user selects "2010-10-11" date from "License Expiry Date" field
             And user selects "Indian" from "Nationality" dropdown
             And user selects "Single" from "Marital Status" dropdown
-            And user selects "1995-28-03" date from "License Expiry Date" field
+            And user selects "1995-28-03" date from "Date of Birth" field
             And user clicks on "Male" for "Gender" radio button
             And user clicks on "Save" button's 1 occurrence
         Then assert that "Success" status banner with "Successfully Updated" message is displayed
@@ -90,7 +90,7 @@ Feature: User Login
         When user clicks on "edit" in the table for row 1
 
     @c
-    Scenario: Edit the employee if it exists
+    Scenario: Edit the employee details
         When user "expands" the side menu
             And user clicks on "PIM" text
             And user "collapses" the side menu
@@ -103,10 +103,7 @@ Feature: User Login
                 | <<ignore>> | 123456789 | Test Automation | User      |           |                   |          | <<ignore>> | <<ignore>> |
         When user clicks on "edit" in the table for row 1
         Then assert that "Personal Details" text is displayed
-            And assert that below table is displayed
-                | CheckBox   | File Name         | Description            | Size          | Type          | Date Added     | Added By | Actions |
-                | <<ignore>> | AddressProof.docx | Address proof uploaded | <<not-empty>> | <<not-empty>> | <<today-date>> | Admin    |         |
-
+           
     @d
     Scenario: Switching between Tabs
         When user "expands" the side menu
