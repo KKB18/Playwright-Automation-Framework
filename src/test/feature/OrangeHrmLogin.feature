@@ -1,4 +1,4 @@
-@f1
+@f1 @Smoke
 Feature: User Login
 
     Background:
