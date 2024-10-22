@@ -28,6 +28,6 @@ export const invokeBrowser = () => {
         case "webkit":
             return webkit.launch(options);
         default:
-            throw new Error(browserType + "Incorrect browser type ");
+            throw new Error(" Incorrect browser type received - " + process.env.npm_config_BROWSER);
     }
 }
