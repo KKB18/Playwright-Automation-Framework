@@ -1,4 +1,4 @@
-@f1 @Smoke
+@f1
 Feature: User Login
 
     Background:
@@ -8,7 +8,8 @@ Feature: User Login
             And user enters "admin123" into "Password" field
         When user clicks on "Login" button
         Then assert that "Login" text is not displayed
-    @a
+
+    @Smoke
     Scenario: Delete the employee if it exists
         When user "expands" the side menu
             And user clicks on "PIM" text
@@ -29,7 +30,7 @@ Feature: User Login
             And user clicks on "Search" button
         Then assert that "Info" status banner with "No Records Found" message is displayed
 
-    @b
+    @Smoke
     Scenario: Create and search new Employee in PIM module
         When user "expands" the side menu
             And user clicks on "PIM" text
