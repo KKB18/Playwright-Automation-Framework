@@ -30,7 +30,6 @@ Feature: User Login
             And user clicks on "Search" button
         Then assert that "Info" status banner with "No Records Found" message is displayed
 
-    @Smoke
     Scenario: Create and search new Employee in PIM module
         When user "expands" the side menu
             And user clicks on "PIM" text
