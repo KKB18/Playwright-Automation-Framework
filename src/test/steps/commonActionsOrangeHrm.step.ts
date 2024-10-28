@@ -12,6 +12,9 @@ Given('user navigates to the Orange Hrm application login page', async () => {
     logger.info("Going to the target application")
 });
 
+// The fill() function clears the existing text and types the provided text in the text box.
+// The type() function types the provided text character-by-character, similar to human typing. It doesn’t clear existing text by default.
+
 When('user enters {string} into {string} field', async function (value: string, fieldLabel: string) {
     ele.inputEleUsingLabel(fieldLabel).fill(value);
 });
@@ -66,12 +69,26 @@ When('user selects {string} date from {string} field', async function (date: Dat
     await ele.datePicker(date);
 });
 
+// Below helps the user to upload the file directly to the available input[file] element in the DOM without any pop ups
+// setInputFiles function can take array of file paths to be uploaded if the element is input[ multiple file]
 When('user uploads {string} file', async function (fileName: string) {
     const currentRepo = path.join(__dirname, '../');
     const infoFilePath = path.join(currentRepo, '/helper/attachments/');
     const filePath = path.join(infoFilePath, fileName);
-    const fileInput = await page.locator('input[type="file"]');
+    const fileInput = await page.locator(`input[type="file"]`);
     await fileInput.setInputFiles(filePath);
+});
+
+// Below helps the user to upload the file if input[file] element in the DOM is not available and we need to upload through file explorer
+// setFiles function can take array of file paths to be uploaded if the element is input[ multiple file]
+When('user uploads {string} file through file explorer', async function (fileName: string) {
+    const currentRepo = path.join(__dirname, '../');
+    const infoFilePath = path.join(currentRepo, '/helper/attachments/');
+    const filePath = path.join(infoFilePath, fileName);
+    page.on("filechooser", async(fileChooser) => {
+        await fileChooser.setFiles(filePath);
+    })
+    await page.locator(`//div[text()='Browse']`).click();
 });
 
 When('user closes the notification banner', async function () {

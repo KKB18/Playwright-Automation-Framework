@@ -30,6 +30,7 @@ Feature: User Login
             And user clicks on "Search" button
         Then assert that "Info" status banner with "No Records Found" message is displayed
 
+    @a
     Scenario: Create and search new Employee in PIM module
         When user "expands" the side menu
             And user clicks on "PIM" text
@@ -68,7 +69,7 @@ Feature: User Login
         Then assert that "Success" status banner with "Successfully Saved" message is displayed
         When user closes the notification banner
             And user clicks on "Add" button
-            And user uploads "AddressProof.docx" file
+            And user uploads "AddressProof.docx" file through file explorer
             And user enters "Address proof uploaded" into "Type comment here" textarea
             And user clicks on "Save" button's 3 occurrence
         Then assert that "Success" status banner with "Successfully Saved" message is displayed

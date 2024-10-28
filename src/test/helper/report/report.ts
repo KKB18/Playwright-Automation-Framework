@@ -54,9 +54,9 @@ async function generateReport() {
             customData: {
                 title: "Run info",
                 data: [
-                    { label: "Project", value: "Ebay Testing" },
-                    { label: "Release", value: "1.2.3" },
-                    { label: "Cycle", value: "B11221.34321" },
+                    { label: "Project", value: "Playwright BDD Framework" },
+                    { label: "Release", value: "1.0" },
+                    { label: "Cycle", value: "NA" },
                     { label: "Execution Start Time", value: Date() }
                 ],
             },
