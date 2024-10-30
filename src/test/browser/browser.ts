@@ -15,6 +15,7 @@ export const launchBrowser = async (): Promise<Browser> => {
 export const setBrowserPageContext = async (): Promise<[BrowserContext, Page]> => {
     browser = await launchBrowser();
     context = await browser.newContext({
+        acceptDownloads: true,
         recordVideo: {
             dir: "test-results/videos"
         }

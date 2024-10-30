@@ -32,6 +32,8 @@ export const tableHeaderCheckbox = () => page.locator(`//div[@class="oxd-table-h
 export const tableBodyCheckbox = () => page.locator(`//div[@class="oxd-table-body"]//input[@type="checkbox"]`);
 export const tableEditIcon = () => page.locator(`//div[@class="oxd-table-body"]//i[contains(@class,"pencil")]`);
 export const tableDeleteIcon = () => page.locator(`//div[@class="oxd-table-body"]//i[contains(@class,"trash")]`);
+export const tableDownloadIcon = () => page.locator(`//div[@class="oxd-table-body"]//i[contains(@class,"download")]`);
+
 
 
 // Function enables to user in selecting a option from the dropdown menu

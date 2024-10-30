@@ -85,7 +85,7 @@ When('user uploads {string} file through file explorer', async function (fileNam
     const currentRepo = path.join(__dirname, '../');
     const infoFilePath = path.join(currentRepo, '/helper/attachments/');
     const filePath = path.join(infoFilePath, fileName);
-    page.on("filechooser", async(fileChooser) => {
+    page.on("filechooser", async (fileChooser) => {
         await fileChooser.setFiles(filePath);
     })
     await page.locator(`//div[text()='Browse']`).click();
@@ -115,4 +115,14 @@ When('user clicks on {string} button title', async function (buttonText: string)
 
 Given('user switches to browser tab {int}', async function (tabNumber: number) {
     await openTab(tabNumber);
+});
+When('user clicks on download on row {int}', async function (row: number) {
+    const download = await Promise.all([
+        page.waitForEvent("download"),
+        ele.tableDownloadIcon().nth(row - 1).click()
+    ]);
+    const fileName = await download[0].suggestedFilename();
+    const currentRepo = path.join(__dirname, '../../..');
+    const filepath = path.join(currentRepo, 'test-results');
+    await download[0].saveAs(filepath + "/" + fileName);
 });
