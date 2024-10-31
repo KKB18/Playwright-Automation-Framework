@@ -11,7 +11,7 @@ Feature: Practice and become pro in test automation
         When user enters "Test Automation User" into "Enter your full Name" text box
         When user appends " Tester" into "Append a text and press keyboard tab" text box
         Then user asserts that "What is inside the text box" field is equal to "ortonikc" text
-        When user enters "Clear the text" into "" text box
+        When user enters "" into "Clear the text" text box
         Then user asserts that "Confirm edit field is disabled" field is disabled
         Then user asserts that "Confirm text is readonly" field is readonly
     
@@ -20,3 +20,23 @@ Feature: Practice and become pro in test automation
         When user clicks on "File management" link text
         Then assert that "Upload and Download" text is visible
         When user downloads by clicking on "Download Pdf"
+
+    @l3
+    Scenario: Play with Buttons
+        When user clicks on "Click" link text
+        Then assert that "Button" text is visible
+        When user clicks on button "Goto Home"
+        Given user navigates to the Let Code - Practice and become pro in test automation
+        When user clicks on "Click" link text
+        Then assert that "Button" text is visible
+        When user gets x y coordinates of "Find Location" button
+        Then user gets the css properties of button "What is my color?"
+        Then user asserts that button "Disabled" is disabled
+        When user clicks and hold "Button Hold!" button for 3 seconds
+
+    @l4
+    Scenario: Play with DropDowns
+        When user clicks on "Drop-Down" link text
+        Then assert that "Dropdown" text is visible
+        When user selects "Select the apple using visible text" value from the dropdown "Orange"
+        Then assert that "You have selected Orange" text is visible

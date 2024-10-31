@@ -73,7 +73,7 @@ AfterStep(async function ({ pickle }) {
     const img = await page.screenshot({ path: "./ScreenShots/" + scenarioName + ".png", type: "png" });
     // attach the SS to html report
     this.attach(img, "image/png");
-    await page.waitForLoadState('networkidle', { timeout: 100000 });
+    await page.waitForLoadState('domcontentloaded', { timeout: 100000 });
 
 });
 
