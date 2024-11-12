@@ -38,11 +38,32 @@ Feature: Practice and become pro in test automation
     Scenario: Play with DropDowns
         When user clicks on "Drop-Down" link text
         Then assert that "Dropdown" text is visible
-        When user selects "Mango" value from the dropdown "Select the apple using visible text"
-        Then assert that "You have selected Mango" text is visible
-        When user selects "Wonder Woman, Robin" values from the dropdown "Select your super hero's"
-        Then assert that "You have selected Robin" text is visible
-        When user selects "C#" values from the dropdown "Select the last programming language and print all the options"
-        When user gets the length of options and prints all of them from the dropdown "Select the last programming language and print all the options"
+        # When user selects "Mango"6 options and prints all of them from the dropdown "Select the last programming language and print all the options"
         When user selects "Venezuela" values from the dropdown "Select India using value & print the selected value"
         When user gets the length of options and prints all of them from the dropdown "Select India using value & print the selected value"
+        When user gets the value from the dropdown "Select India using value & print the selected value"
+
+    @l5
+    Scenario: Play with Alerts
+        When user clicks on "Dialog" link text
+        Then assert that "Alert" text is visible
+        When user clicks "cancel" for the alert by clicking "Confirm Alert" button
+    
+    @l6
+    Scenario: Play with Prompt Alerts
+        When user clicks on "Dialog" link text
+        Then assert that "Alert" text is visible
+        When user enters "Automation User" into the alert by clicking "Prompt Alert" button
+        Then assert that "Your name is: Automation User" text is visible 
+
+    @l7
+    Scenario: Play with drag
+        When user clicks on "AUI - 1" link text
+        Then assert that "Drag" text is visible
+        When user drags the element to new position
+    
+    @l8
+    Scenario: Play with drop
+        When user clicks on "AUI - 2" link text
+        Then assert that "Drop" text is visible
+        When user drags and drops the element 

@@ -4,6 +4,7 @@ import { pageNavigation } from "../pages/pageNavigation";
 import { page, logger, browser, context, openTab } from '../browser/browser';
 import * as lc from "../pages/letCode.page";
 import path from "path";
+import { ElementHandle } from 'playwright';
 
 Given('user navigates to the Let Code - Practice and become pro in test automation', async () => {
     await pageNavigation.navigateToUrl();
@@ -98,4 +99,76 @@ When('user gets the length of options and prints all of them from the dropdown {
         options.map(option => (option as HTMLOptionElement).innerText)
     );
     console.log("------List of values in dd - " + attributeValues + '------- Length of the dd - ' + await dd.count());
+});
+
+When('user gets the value from the dropdown {string}', async function (dropdown: string) {
+    const shadowHostHandle = await page.$('#country');
+
+    if (shadowHostHandle) {
+        // Access the button within the shadow DOM
+        const textHandle = await shadowHostHandle.evaluate((host) => {
+            return host.shadowRoot?.querySelector('div');
+        });
+
+        // Ensure the buttonHandle is not null and cast it to ElementHandle for DOM interaction
+        if (textHandle) {
+            // Cast to ElementHandle with 'as unknown as ElementHandle<Element>' to ensure compatibility
+            console.log((textHandle as unknown as ElementHandle<Element>).innerText);
+        } else {
+            console.error("Button element not found in shadow DOM.");
+        }
+    } else {
+        console.error("Shadow host element not found.");
+    }
+});
+
+When('user clicks {string} for the alert by clicking {string} button', async function (promptAction: "ok" | "cancel", buttonText: string) {
+    page.on('dialog', async dialog => {
+        console.log('Dialog type - ' + dialog.type());
+        console.log('Dialog message - ' + dialog.message());
+        promptAction === "ok" ? await dialog.accept() : await dialog.dismiss();
+    });
+    await page.getByRole("button", { name: buttonText }).click();
+});
+
+When('user enters {string} into the alert by clicking {string} button', async function (text: string, buttonText: string) {
+    page.on('dialog', async dialog => {
+        console.log('Dialog type - ' + dialog.type());
+        console.log('Dialog message - ' + dialog.message());
+        await dialog.accept(text);
+    });
+    await page.getByRole("button", { name: buttonText }).click();
+});
+
+When('user drags and drops the element', async function () {
+    let srcEle = await page.locator(`//*[text()="Drag me to my target"]/parent::div`);
+    let desEle = await page.locator(`//*[text()="Drop here"]/parent::div`);
+    let sourcePosition = await srcEle.boundingBox();
+    let destinationPosition = await desEle.boundingBox();
+    console.log(sourcePosition);
+    if (destinationPosition && sourcePosition) {
+        await page.mouse.move(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2);
+        await page.mouse.down();
+        await page.mouse.move(destinationPosition.x + destinationPosition.width / 2, destinationPosition.y + destinationPosition.height / 2);
+        await page.mouse.down();
+        console.log(await srcEle.boundingBox());
+    } else {
+        throw new Error(`No Element found to move`)
+    }
+});
+
+When('user drags the element to new position', async function () {
+    let srcEle = await page.locator(`//*[text()="I can only be dragged within the dotted container"]/parent::div`);
+    let sourcePosition = await srcEle.boundingBox();
+    console.log(sourcePosition);
+    if (sourcePosition) {
+        await page.mouse.click(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2);
+        await page.mouse.down();
+        await page.mouse.move(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2 + 400);
+        await page.mouse.move(sourcePosition.x + sourcePosition.width / 2 + 400, sourcePosition.y + sourcePosition.height / 2 );
+        await page.mouse.up();
+        console.log(await srcEle.boundingBox());
+    } else {
+        throw new Error(`No Element found to move`)
+    }
 });
