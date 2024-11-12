@@ -6,3 +6,4 @@ export const eleUsingText = (text: string) => page.locator(`//*[normalize-space(
 export const eleUsingId = (id: string) => page.locator(`//input[@id="${id}"]`).first();
 export const eleUsingPlaceholder = (placeholder: string) => page.locator(`//input[@placeholder="${placeholder}"]`).first();
 export const textBoxUsingLabel = (labelText: string) => page.locator(`//label[normalize-space(text())="${labelText}"]/following-sibling::*//input`).first(); 
+export const dropdownUsingLabel = (labelText: string) => page.locator(`//label[text()="${labelText}"]/following-sibling::*//select`);

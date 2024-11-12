@@ -7,7 +7,6 @@ import path from "path";
 
 Given('user navigates to the Let Code - Practice and become pro in test automation', async () => {
     await pageNavigation.navigateToUrl();
-    // await page.waitForLoadState();
     logger.info("Going to the target application")
 });
 
@@ -86,7 +85,17 @@ When('user clicks and hold {string} button for {int} seconds', async function (t
     })
 });
 
-When('user selects {string} value from the dropdown {string}', async function (value: string, dropdown: string) {
-    const dd = await page.locator(`//*[@id="fruits"]`);
-    await dd?.selectOption({ label: value });
+When('user selects {string} value/values from the dropdown {string}', async function (option: string, dropdown: string) {
+    let op = option.split(',').map(option => option.trim());
+    const o = op.map(option => ({ label: option }));
+    const dd = await lc.dropdownUsingLabel(dropdown);
+    await dd?.selectOption(o);
+});
+
+When('user gets the length of options and prints all of them from the dropdown {string}', async function (dropdown: string) {
+    const dd = await lc.dropdownUsingLabel(dropdown).locator(`//option`);
+    const attributeValues = await dd.evaluateAll((options) =>
+        options.map(option => (option as HTMLOptionElement).innerText)
+    );
+    console.log("------List of values in dd - " + attributeValues + '------- Length of the dd - ' + await dd.count());
 });

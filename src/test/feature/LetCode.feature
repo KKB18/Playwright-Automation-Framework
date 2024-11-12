@@ -38,5 +38,11 @@ Feature: Practice and become pro in test automation
     Scenario: Play with DropDowns
         When user clicks on "Drop-Down" link text
         Then assert that "Dropdown" text is visible
-        When user selects "Select the apple using visible text" value from the dropdown "Orange"
-        Then assert that "You have selected Orange" text is visible
+        When user selects "Mango" value from the dropdown "Select the apple using visible text"
+        Then assert that "You have selected Mango" text is visible
+        When user selects "Wonder Woman, Robin" values from the dropdown "Select your super hero's"
+        Then assert that "You have selected Robin" text is visible
+        When user selects "C#" values from the dropdown "Select the last programming language and print all the options"
+        When user gets the length of options and prints all of them from the dropdown "Select the last programming language and print all the options"
+        When user selects "Venezuela" values from the dropdown "Select India using value & print the selected value"
+        When user gets the length of options and prints all of them from the dropdown "Select India using value & print the selected value"
