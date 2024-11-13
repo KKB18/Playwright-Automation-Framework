@@ -67,3 +67,12 @@ Feature: Practice and become pro in test automation
         When user clicks on "AUI - 2" link text
         Then assert that "Drop" text is visible
         When user drags and drops the element 
+
+    @l9
+    Scenario: Play with Sort
+        When user clicks on "AUI - 3" link text
+        Then assert that "Sort" text is visible
+        When user drags the "Get up" work item to "To do" section
+        When user drags the "Go home" work item to "Done" section
+        When user drags the "Walk dog" work item to "To do" section
+        When user drags the "Get to work" work item to "Done" section

@@ -49,7 +49,8 @@ Before(async function ({ pickle }) {
     });
 
     // Set the browser viewport to the screen size
-    await page.setViewportSize({ width: screenSize.width, height: screenSize.height });
+    // await page.setViewportSize({ width: screenSize.width, height: screenSize.height });
+    await page.setViewportSize({ width: 1420, height: 741 });
     let scenarioName = pickle.name + pickle.id;
     await context.tracing.start({
         name: scenarioName,

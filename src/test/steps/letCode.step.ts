@@ -164,10 +164,32 @@ When('user drags the element to new position', async function () {
     if (sourcePosition) {
         await page.mouse.click(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2);
         await page.mouse.down();
-        await page.mouse.move(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2 + 400);
-        await page.mouse.move(sourcePosition.x + sourcePosition.width / 2 + 400, sourcePosition.y + sourcePosition.height / 2 );
+        await page.mouse.move(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2 + 200);
+        await page.mouse.move(sourcePosition.x + sourcePosition.width / 2 + 200, sourcePosition.y + sourcePosition.height / 2 + 200);
         await page.mouse.up();
         console.log(await srcEle.boundingBox());
+    } else {
+        throw new Error(`No Element found to move`)
+    }
+});
+
+When('user drags the {string} work item to {string} section', async function (item: string, section: string) {
+    let srcEle = page.locator(`//div[contains(text(),"${item}")]`);
+    await srcEle.scrollIntoViewIfNeeded();
+    let destArea = page.locator(`//h2[contains(text(),"${section}")]/following-sibling::div`);
+    let sourcePosition = await srcEle.boundingBox();
+    let destinationPosition = await destArea.boundingBox();
+    console.log(sourcePosition);
+    console.log(destinationPosition);
+
+    if (sourcePosition && destinationPosition) {
+        await page.mouse.click(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2);
+        await page.mouse.down();
+        await page.mouse.move(destinationPosition.x + destinationPosition.width / 2, destinationPosition.y + destinationPosition.height / 2);
+        await page.waitForTimeout(2000);
+        await page.mouse.move(destinationPosition.x + destinationPosition.width / 2, destinationPosition.y + destinationPosition.height / 2);
+        await page.waitForTimeout(2000);
+        await page.mouse.up();
     } else {
         throw new Error(`No Element found to move`)
     }

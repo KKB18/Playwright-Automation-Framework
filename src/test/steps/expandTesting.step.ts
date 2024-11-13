@@ -4,7 +4,20 @@ import { pageNavigation } from "../pages/pageNavigation";
 import { page, logger, browser, context, openTab } from '../browser/browser';
 import path from "path";
 import { ElementHandle } from 'playwright';
+import * as et from "../pages/expandTesting.page";
 
+Given('user navigates to the Practice texting website', async () => {
+    await pageNavigation.navigateToUrl();
+    logger.info("Going to the target application")
+});
+
+When('user clicks on the {string} link text', async function (linkText: string) {
+    await et.eleUsingLinkText(linkText).nth(0).click();
+});
+
+Then('assert that the {string} text is visible', async function (text: string) {
+    await expect(et.eleUsingText(text)).toBeVisible({ timeout: 10000 });
+});
 
 When('user clicks on shadow button', async function () {
     //Executes JavaScript in the browser context and returns a value directly (like a string, number, or a JSON-serializable object).
