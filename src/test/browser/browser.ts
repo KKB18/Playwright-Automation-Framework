@@ -18,7 +18,12 @@ export const setBrowserPageContext = async (): Promise<[BrowserContext, Page]> =
         acceptDownloads: true,
         recordVideo: {
             dir: "test-results/videos"
-        }
+        },
+        // Add back the below when dealing with http authentication pop ups
+        // httpCredentials: {
+        //     username: 'admin',
+        //     password: 'admin'
+        // }
     });
     page = await context.newPage();
     return [context, page]
