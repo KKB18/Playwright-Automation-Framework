@@ -18,7 +18,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npm test --TAGS="{{tags}}" --ENV={{env}}
+      run: npm test --TAGS="${{ env.tag }}" --ENV=${{ env.website }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
