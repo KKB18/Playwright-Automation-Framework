@@ -1,5 +1,5 @@
 import { Browser, BrowserContext, Page } from '@playwright/test';
-import { page, browser, context } from '../browser/browser';
+import { page, browser, context } from '../helper/browser/browser';
 
 export class pageNavigation {
     static async navigateToUrl() {

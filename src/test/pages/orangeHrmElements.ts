@@ -1,4 +1,4 @@
-import { page } from "../browser/browser";
+import { page } from "../helper/browser/browser";
 import { expect } from "playwright/test";
 
 

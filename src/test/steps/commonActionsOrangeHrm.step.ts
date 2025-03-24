@@ -1,7 +1,7 @@
 import { Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
 import { pageNavigation } from "../pages/pageNavigation";
-import { page, logger, browser, context, openTab } from '../browser/browser';
+import { page, logger, browser, context, openTab } from '../helper/browser/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
 import * as ele from "../pages/orangeHrmElements";

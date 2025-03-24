@@ -1,6 +1,6 @@
 import { Browser, BrowserContext, Page } from "playwright/test";
 import { invokeBrowser } from "./browserManager";
-import { logger } from "../pages/hooks";
+import { logger } from "../hooks/hooks";
 
 let page: Page;
 let context: BrowserContext;
@@ -40,7 +40,7 @@ export const openTab = async (index: number) => {
         // Perform the action that opens the new tab
         const newPage = await context.waitForEvent('page'); // Wait for the new tab to open
         // Wait for the new page to load completely
-        await newPage.waitForLoadState();
+        await newPage.waitForLoadState();3
     }
 
     // Get all open pages (tabs) in the context

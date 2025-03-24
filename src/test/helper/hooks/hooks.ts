@@ -1,8 +1,8 @@
 import { BeforeAll, AfterAll, Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
 import { getPage, launchBrowser, setBrowserPageContext } from '../browser/browser';
-import { getEnv } from "../helper/env/env";
+import { getEnv } from "../env/env";
 import { Logger, createLogger } from 'winston';
-import { options } from "../helper/logger/logger";
+import { options } from "../logger/logger";
 import fs from "fs-extra";
 import * as os from "os"
 import path from "path";
@@ -30,7 +30,7 @@ BeforeAll(async function () {
 
     // Access the systemInfo.json file and update the values for the html report
     const currentRepo = path.join(__dirname, '../');
-    const infoFilePath = path.join(currentRepo, '/helper/testData/systemInfo.json');
+    const infoFilePath = path.join(currentRepo, '/testData/systemInfo.json');
     await fs.writeJson(infoFilePath, info);
 
 });

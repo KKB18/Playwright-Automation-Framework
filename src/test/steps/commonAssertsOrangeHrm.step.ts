@@ -1,10 +1,10 @@
 import { DataTable, Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
-import { page, logger, browser, context } from '../browser/browser';
+import { page, logger, browser, context } from '../helper/browser/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
 import * as ele from "../pages/orangeHrmElements";
-import { resolveFunction } from "../pages/resolveVariable";
+import { resolveFunction } from "../helper/parameters/resolveVariable";
 
 Then('assert that {string} field has {string} value', async function (fieldLabel: string, expectedValue: string) {
     let actualValue = ele.inputValueUsingLabel(fieldLabel).textContent();

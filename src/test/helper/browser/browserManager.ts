@@ -1,5 +1,5 @@
 import { LaunchOptions, chromium, firefox, webkit } from "@playwright/test";
-import { getEnv } from "../helper/env/env";
+import { getEnv } from "../env/env";
 
 function headlessStatus(): boolean {
     getEnv();
