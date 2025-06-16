@@ -21,29 +21,29 @@
   "license": "ISC",
   "My Comment-devDependencies": "These packages are only needed for development purposed",
   "devDependencies": {
-    "@cucumber/pretty-formatter": "^1.0.0",
-    "eslint-plugin-cucumber": "^1.4.0",
-    "playwright": "^1.44.1"
+    "@cucumber/pretty-formatter": "^1.0.1",
+    "eslint-plugin-cucumber": "^2.0.0",
+    "playwright": "^1.53.0"
   },
   "My Comment-dependencies": "These packages are required for the application to run in production",
   "dependencies": {
-    "@cucumber/cucumber": "^9.3.0",
-    "@playwright/test": "^1.40.0",
-    "@types/cucumber": "^7.0.0",
+    "@cucumber/cucumber": "^11.3.0",
+    "@playwright/test": "^1.53.0",
+    "@types/cucumber": "^7.0.3",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.10.0",
+    "@types/node": "^24.0.1",
     "cross-env": "^7.0.3",
     "cucumber": "^6.0.7",
     "cucumber-console-formatter": "^1.0.0",
-    "cucumber-html-reporter": "^6.0.0",
+    "cucumber-html-reporter": "^7.2.0",
     "date-and-time": "^3.6.0",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.5.0",
     "fs": "^0.0.1-security",
-    "multiple-cucumber-html-reporter": "^3.5.0",
+    "multiple-cucumber-html-reporter": "^3.9.2",
     "os": "^0.1.2",
-    "pactum": "^3.7.0",
+    "pactum": "^3.7.6",
     "screen-resolution": "^1.0.0",
-    "ts-node": "^10.9.1",
-    "winston": "^3.11.0"
+    "ts-node": "^10.9.2",
+    "winston": "^3.17.0"
   }
 }
