@@ -12,7 +12,7 @@ class BrowserManager {
         return {
             headless: headless === "headless",
             timeout: 100000,
-            args: ['--start-fullscreen']
+            args: ['--start-maximized']
         };
     }
 
@@ -37,7 +37,10 @@ class BrowserManager {
         if (!this._browser) await this.launchBrowser();
         this._context = await this._browser!.newContext({
             acceptDownloads: true,
-            recordVideo: { dir: "test-results/videos" }
+            recordVideo: {
+                dir: "test-results/videos"
+            },
+            viewport: null
         });
         this._page = await this._context.newPage();
         return [this._context, this._page];

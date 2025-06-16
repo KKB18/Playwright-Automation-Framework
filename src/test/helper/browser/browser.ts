@@ -29,4 +29,3 @@ export const closeAll = async () => {
         logger.error(`Error closing browser: ${error}`);
     }
 };
-

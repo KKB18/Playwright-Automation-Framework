@@ -23,7 +23,7 @@ BeforeAll(async function () {
 Before(async function ({ pickle }) {
     await browserManager.createContextAndPage();
     logger = createTestLogger(pickle.name + pickle.id);
-    await browserManager.page.setViewportSize({ width: 1420, height: 741 });
+    // await browserManager.page.setViewportSize({ width: 1420, height: 741 });
     await startTracing(browserManager.context, pickle.name + pickle.id, pickle.name);
     initBrowserRefs();
 });
@@ -35,17 +35,29 @@ AfterStep(async function ({ pickle }) {
 });
 
 After(async function ({ pickle, result }) {
-    let temp = await browserManager.page.video()?.path();
-    let videoPath = typeof (temp) === "string" ? temp : "null";
+
     const tracePath = `./test-results/trace/${pickle.id}.zip`;
     await stopTracing(browserManager.context, tracePath);
-    if (result?.status === Status.FAILED) {
+
+    await browserManager.page.close();
+    await browserManager.context.close();
+
+    // Now get the video path (video is finalized now)
+    let videoPath: string | null = null;
+    try {
+        const temp = await browserManager.page.video()?.path();
+        videoPath = typeof temp === "string" ? temp : null;
+    } catch (e) {
+        videoPath = null;
+    }
+
+    // Attach video if failed and video exists
+    if (result?.status === Status.FAILED && videoPath && fs.existsSync(videoPath)) {
         this.attach(fs.readFileSync(videoPath), "video/webm");
         const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`;
         this.attach(`Trace file: ${traceFileLink}`, 'text/html');
     }
-    await browserManager.page.close();
-    await browserManager.context.close();
+
 });
 
 AfterAll(async function () {
