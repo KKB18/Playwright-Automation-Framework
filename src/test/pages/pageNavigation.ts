@@ -1,4 +1,3 @@
-import { Browser, BrowserContext, Page } from '@playwright/test';
 import { page, browser, context } from '../helper/browser/browser';
 
 export class pageNavigation {

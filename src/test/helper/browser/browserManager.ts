@@ -1,33 +1,80 @@
-import { LaunchOptions, chromium, firefox, webkit } from "@playwright/test";
+import { Browser, BrowserContext, Page, chromium, firefox, webkit, LaunchOptions } from "@playwright/test";
 import { getEnv } from "../env/env";
 
-function headlessStatus(): boolean {
-    getEnv();
-    let headless = typeof (process.env.npm_config_HEAD) === "string" ? process.env.npm_config_HEAD : process.env.HEAD;
-    let hs = true;
-    if (typeof (headless) === "string") {
-        if (headless === "headless")
-            hs = true;
-        else if (headless === "headed")
-            hs = false;
+class BrowserManager {
+    private _browser: Browser | null = null;
+    private _context: BrowserContext | null = null;
+    private _page: Page | null = null;
+
+    private getLaunchOptions(): LaunchOptions {
+        getEnv();
+        const headless = process.env.npm_config_HEAD || process.env.HEAD;
+        return {
+            headless: headless === "headless",
+            timeout: 100000,
+            args: ['--start-fullscreen']
+        };
     }
-    return hs;
-}
-const options: LaunchOptions = {
-    headless: headlessStatus(),
-    timeout: 100000,
-    args: ['--start-fullscreen']
-}
-export const invokeBrowser = () => {
-    let browserType = typeof (process.env.npm_config_BROWSER) === "string" ? process.env.npm_config_BROWSER : process.env.BROWSER;
-    switch (browserType) {
-        case "chrome":
-            return chromium.launch(options);
-        case "firefox":
-            return firefox.launch(options);
-        case "webkit":
-            return webkit.launch(options);
-        default:
-            throw new Error(" Incorrect browser type received - " + process.env.npm_config_BROWSER);
+
+    private getBrowserType(): string {
+        return process.env.npm_config_BROWSER || process.env.BROWSER || "chrome";
+    }
+
+    public async launchBrowser(): Promise<Browser> {
+        if (this._browser) return this._browser;
+        const type = this.getBrowserType();
+        const options = this.getLaunchOptions();
+        switch (type) {
+            case "chrome": this._browser = await chromium.launch(options); break;
+            case "firefox": this._browser = await firefox.launch(options); break;
+            case "webkit": this._browser = await webkit.launch(options); break;
+            default: throw new Error(`Unknown browser type: ${type}`);
+        }
+        return this._browser;
+    }
+
+    public async createContextAndPage(): Promise<[BrowserContext, Page]> {
+        if (!this._browser) await this.launchBrowser();
+        this._context = await this._browser!.newContext({
+            acceptDownloads: true,
+            recordVideo: { dir: "test-results/videos" }
+        });
+        this._page = await this._context.newPage();
+        return [this._context, this._page];
+    }
+
+    public get browser(): Browser {
+        if (!this._browser) throw new Error("Browser not initialized");
+        return this._browser;
+    }
+    public get context(): BrowserContext {
+        if (!this._context) throw new Error("Context not initialized");
+        return this._context;
+    }
+    public get page(): Page {
+        if (!this._page) throw new Error("Page not initialized");
+        return this._page;
+    }
+
+    public async openTab(index: number): Promise<Page> {
+        if (!this._context) throw new Error("Context not initialized");
+        const pages = this._context.pages();
+        if (pages.length < index) {
+            const newPage = await this._context.waitForEvent('page');
+            await newPage.waitForLoadState();
+        }
+        const allTabs = this._context.pages();
+        const targetTab = allTabs[index - 1] ?? allTabs[0];
+        await targetTab.bringToFront();
+        this._page = targetTab;
+        return this._page;
+    }
+
+    public async closeAll(): Promise<void> {
+        if (this._page) await this._page.close();
+        if (this._context) await this._context.close();
+        if (this._browser) await this._browser.close();
     }
 }
+
+export const browserManager = new BrowserManager();

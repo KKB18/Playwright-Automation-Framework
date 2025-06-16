@@ -4,7 +4,7 @@ export function options(scenarioName: string) {
     return {
         transports: [
             new transports.File({
-                filename: `test-results/logs/${scenarioName}/log.log`,
+                filename: `test-results/logs/${scenarioName}/logger.log`,
                 level: 'info',
                 format: format.combine(
                     format.timestamp({ format: 'MMM-DD-YYYY HH:mm:ss' }),
