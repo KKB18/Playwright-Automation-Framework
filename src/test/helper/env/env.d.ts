@@ -7,6 +7,7 @@ declare global {
             ENV: "preProd" | "qa" | "prod",
             BASEURL: string,
             HEAD: "headed" | "headless",
+            TAGS: string
         }
     }
 }

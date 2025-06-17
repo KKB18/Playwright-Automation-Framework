@@ -1,7 +1,11 @@
+require('ts-node/register');
+const env = require("./src/test/helper/env/env.ts");
+env.getEnv(process.env.npm_config_ENV || "local");
+
 module.exports = {
     default: {
         // "Specifies the scenarios with specific tags to be executed npm test --TAGS="@k""|| "@Smoke"
-        tags: process.env.npm_config_TAGS || "@Smoke",
+        tags: process.env.TAGS || process.env.npm_config_TAGS || "@Smoke",
         //"Specifies the format of Step definitions generated if not present"
         formatOptions: {
             snippetInterface: "async-await"
