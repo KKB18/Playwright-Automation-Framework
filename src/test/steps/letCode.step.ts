@@ -145,13 +145,13 @@ When('user drags and drops the element', async function () {
     let desEle = await page.locator(`//*[text()="Drop here"]/parent::div`);
     let sourcePosition = await srcEle.boundingBox();
     let destinationPosition = await desEle.boundingBox();
-    console.log(sourcePosition);
+    // console.log(sourcePosition);
     if (destinationPosition && sourcePosition) {
         await page.mouse.move(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2);
         await page.mouse.down();
         await page.mouse.move(destinationPosition.x + destinationPosition.width / 2, destinationPosition.y + destinationPosition.height / 2);
         await page.mouse.down();
-        console.log(await srcEle.boundingBox());
+        // console.log(await srcEle.boundingBox());
     } else {
         throw new Error(`No Element found to move`)
     }
@@ -160,14 +160,14 @@ When('user drags and drops the element', async function () {
 When('user drags the element to new position', async function () {
     let srcEle = await page.locator(`//*[text()="I can only be dragged within the dotted container"]/parent::div`);
     let sourcePosition = await srcEle.boundingBox();
-    console.log(sourcePosition);
+    // console.log(sourcePosition);
     if (sourcePosition) {
         await page.mouse.click(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2);
         await page.mouse.down();
         await page.mouse.move(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2 + 200);
         await page.mouse.move(sourcePosition.x + sourcePosition.width / 2 + 200, sourcePosition.y + sourcePosition.height / 2 + 200);
         await page.mouse.up();
-        console.log(await srcEle.boundingBox());
+        // console.log(await srcEle.boundingBox());
     } else {
         throw new Error(`No Element found to move`)
     }
@@ -179,8 +179,8 @@ When('user drags the {string} work item to {string} section', async function (it
     let destArea = page.locator(`//h2[contains(text(),"${section}")]/following-sibling::div`);
     let sourcePosition = await srcEle.boundingBox();
     let destinationPosition = await destArea.boundingBox();
-    console.log(sourcePosition);
-    console.log(destinationPosition);
+    // console.log(sourcePosition);
+    // console.log(destinationPosition);
 
     if (sourcePosition && destinationPosition) {
         await page.mouse.click(sourcePosition.x + sourcePosition.width / 2, sourcePosition.y + sourcePosition.height / 2);
