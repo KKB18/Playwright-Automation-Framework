@@ -5,19 +5,22 @@ env.getEnv(process.env.npm_config_ENV || "local");
 module.exports = {
     default: {
         // "Specifies the scenarios with specific tags to be executed npm test --TAGS="@k""|| "@Smoke"
-        tags: process.env.TAGS || process.env.npm_config_TAGS || "@Smoke",
+        tags: process.env.npm_config_TAGS || process.env.TAGS || "@Smoke",
         //"Specifies the format of Step definitions generated if not present"
         formatOptions: {
             snippetInterface: "async-await"
         },
         //"Specifies the file paths for the feature files"
         paths: [
-            "src/test/feature/"
+            "src/test/feature/",
+            "src/test/pactumJS/features/"
         ],
         //"Specifies the file paths for the .step and .page files"
         require: [
             "src/test/steps/*.ts",
-            "src/test/pages/*.ts"
+            "src/test/pages/*.ts",
+            "src/test/pactumJS/steps/*.ts",
+            "src/test/pactumJS/pages/*.ts"
         ],
         //"Specifies the format of the output report"
         format: [

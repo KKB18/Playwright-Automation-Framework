@@ -23,7 +23,7 @@ When('user clicks on shadow button', async function () {
     //Executes JavaScript in the browser context and returns a value directly (like a string, number, or a JSON-serializable object).
     let textContent = await page.evaluate(() => document.querySelector('#shadow-host')?.shadowRoot?.querySelector('#my-btn')?.textContent);
     console.log(textContent)
-
+    
     // Get a handle to the shadow host element
     const shadowHostHandle = await page.$('#shadow-host');
 

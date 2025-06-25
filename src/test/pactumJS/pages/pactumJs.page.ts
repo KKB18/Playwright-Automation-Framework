@@ -1,49 +1,57 @@
 import * as pact from "pactum";
-import { spawnSync } from "child_process";
+import { faker } from '@faker-js/faker';
 import path from "path";
 
-export let sasToken: string = "";
-export let bearerToken: string = "";
-export const homeDir = path.join(__dirname, '../..');
-export const psFilePath = (fileName: string) => path.join(homeDir, `pactumJS/utils/${fileName}`);
+let client_id: string = '';
+let client_secret: string = '';
+let access_token: string = '';
+const randomName = faker.person.fullName();
+const randomDescription = faker.lorem.sentence();
+const randomEmail = faker.internet.email();
+pact.request.setBaseUrl('https://api.openverse.org/v1');
+pact.request.setDefaultTimeout(30000);
 
-export const sasTokenGeneration = async (fileName: string) => {
-    const result = spawnSync('powershell', ['-File', psFilePath(fileName)]);
-    if (result.error) {
-        console.error(`Error: ${result.error.message}`);
-    }
-    const output = result.stdout.toString();
-    const filteredOutput = output.substring(output.indexOf('sv='), output.length);
-    sasToken = filteredOutput;
+export const oAuthToken = async () => {
+    const response = await pact.spec()
+        .post('/auth_tokens/register/')
+        .withHeaders('Content-Type', 'application/json')
+        .withBody({
+            "name": randomName,
+            "description": randomDescription,
+            "email": randomEmail
+        })
+        .expectStatus(201)
+        .returns('client_id')
+        .returns('client_secret')
+        .toss();
+    client_id = response[0];
+    client_secret = response[1];
+    console.log("Client ID: ", client_id);
+    console.log("Client Secret: ", client_secret);
 };
 
-export const bearerTokenGeneration = async () => {
+export const accessToken = async () => {
     const response = await pact.spec()
-        .post('url')
+        .post('/auth_tokens/token/')
         .withHeaders('Content-Type', 'application/x-www-form-urlencoded')
-        .withBody({
+        .withForm({
             grant_type: "client_credentials",
-            client_id: "",
-            client_secret: "",
-            scope: ""
+            client_id: client_id,
+            client_secret: client_secret
         })
         .expectStatus(200)
+        .returns('access_token')
         .toss();
-    bearerToken = response.body;
+    access_token = response;
+    console.log("Access Token: ", access_token);
 };
 
-export const apiRequest = async (productCode: string, filePath: string) => {
-    pact.request.setDefaultTimeout(30000);
-    let file = path.join(homeDir, filePath);
+export const apiRequest = async () => {
     let response = pact.spec()
-        .withHeaders("Content-Type", "application/xml")
-        .withHeaders("ProductCode", productCode)
-        .withBody({
-            file: file
-        })
-        .withBearerToken(bearerToken)
-        .post(' ')
-        .expectStatus(201)
-    const responseJson = JSON.stringify(response);
-    return responseJson
+        .get('/audio/')
+        .withBearerToken(access_token)
+        .expectStatus(200)
+        .returns('url')
+        .toss();
+    console.log("Audio URL: ", response);
 };
