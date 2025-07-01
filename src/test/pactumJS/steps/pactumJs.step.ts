@@ -1,6 +1,5 @@
 import { Given, Then, When, After, setWorldConstructor } from "@cucumber/cucumber";
 import * as page from "../pages/pactumJs.page";
-import fs from "fs-extra";
 
 Given('user generates OAuth Token', async () => {
     await page.oAuthToken();
@@ -11,5 +10,5 @@ Given('user generates access token', async () => {
 });
 
 Given('user makes a get request to audio', async () => {
-    let res = await page.apiRequest();
+    await page.apiRequest();
 }); 

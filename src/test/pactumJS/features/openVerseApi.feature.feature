@@ -1,7 +1,8 @@
-@f3
+@f3 @apiSmoke
 Feature: Practice API
+Testing openVerse api
 
-    @a1
+    @a1 @api
     Scenario: Basic Authentication   
         Given user generates OAuth Token
         Given user generates access token

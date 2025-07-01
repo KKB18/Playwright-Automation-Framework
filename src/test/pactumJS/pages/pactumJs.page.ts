@@ -26,8 +26,7 @@ export const oAuthToken = async () => {
         .toss();
     client_id = response[0];
     client_secret = response[1];
-    console.log("Client ID: ", client_id);
-    console.log("Client Secret: ", client_secret);
+    console.log("Client ID: ", client_id, "Client Secret: ", client_secret);
 };
 
 export const accessToken = async () => {
@@ -47,11 +46,11 @@ export const accessToken = async () => {
 };
 
 export const apiRequest = async () => {
-    let response = pact.spec()
+    let response = await pact.spec()
         .get('/audio/')
         .withBearerToken(access_token)
         .expectStatus(200)
-        .returns('url')
+        .returns('results[0].url')
         .toss();
     console.log("Audio URL: ", response);
 };

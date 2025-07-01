@@ -1,7 +1,7 @@
 import { Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
 import { pageNavigation } from "../pages/pageNavigation";
-import { page, logger, browser, context, openTab } from '../helper/browser/browser';
+import {  logger, browser, context, openTab, page } from '../helper/browser/browser';
 import * as lc from "../pages/letCode.page";
 import path from "path";
 import { ElementHandle } from 'playwright';

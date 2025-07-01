@@ -10,6 +10,11 @@ import { Logger } from "winston";
 
 export let logger: Logger;
 
+function isApiFeature(gherkinDocument: any): boolean {
+    const uri = gherkinDocument?.uri?.replace(/\\/g, '/').toLowerCase();
+    return uri?.includes('pactumjs/features');
+}
+
 setDefaultTimeout(60 * 1000 * 4);
 
 BeforeAll(async function () {
@@ -20,44 +25,56 @@ BeforeAll(async function () {
     );
 });
 
-Before(async function ({ pickle }) {
+Before(async function ({ pickle, gherkinDocument }) {
     await browserManager.createContextAndPage();
     logger = createTestLogger(pickle.name + pickle.id);
     // await browserManager.page.setViewportSize({ width: 1420, height: 741 });
-    await startTracing(browserManager.context, pickle.name + pickle.id, pickle.name);
+    // Only start tracing if not an API feature
+    if (!isApiFeature(gherkinDocument)) {
+        await startTracing(browserManager.context, pickle.name + pickle.id, pickle.name);
+    }
     initBrowserRefs();
+
+    // Print scenario tags before each scenario
+    const scenarioTags = pickle.tags.map(tag => tag.name).join(' ');
+    if (scenarioTags) console.log(`${scenarioTags}`);
+    console.log(`${pickle.name}`);
 });
 
-AfterStep(async function ({ pickle }) {
-    const img = await browserManager.page.screenshot({ path: "./ScreenShots/" + pickle.name + pickle.id + ".png", type: "png" });
-    this.attach(img, "image/png");
-    await browserManager.page.waitForLoadState('domcontentloaded', { timeout: 100000 });
+AfterStep(async function ({ pickle, gherkinDocument }) {
+    // Only take screenshots if not an API feature
+    if (!isApiFeature(gherkinDocument)) {
+        const img = await browserManager.page.screenshot({ path: "./ScreenShots/" + pickle.name + pickle.id + ".png", type: "png" });
+        this.attach(img, "image/png");
+        await browserManager.page.waitForLoadState('domcontentloaded', { timeout: 100000 });
+    }
 });
 
-After(async function ({ pickle, result }) {
+After(async function ({ pickle, result, gherkinDocument }) {
 
     const tracePath = `./test-results/trace/${pickle.id}.zip`;
-    await stopTracing(browserManager.context, tracePath);
+    if (!isApiFeature(gherkinDocument)) {
+        await stopTracing(browserManager.context, tracePath);
 
-    await browserManager.page.close();
-    await browserManager.context.close();
+        await browserManager.page.close();
+        await browserManager.context.close();
 
-    // Now get the video path (video is finalized now)
-    let videoPath: string | null = null;
-    try {
-        const temp = await browserManager.page.video()?.path();
-        videoPath = typeof temp === "string" ? temp : null;
-    } catch (e) {
-        videoPath = null;
+        // Now get the video path (video is finalized now)
+        let videoPath: string | null = null;
+        try {
+            const temp = await browserManager.page.video()?.path();
+            videoPath = typeof temp === "string" ? temp : null;
+        } catch (e) {
+            videoPath = null;
+        }
+
+        // Attach video if failed and video exists
+        if (result?.status === Status.FAILED && videoPath && fs.existsSync(videoPath)) {
+            this.attach(fs.readFileSync(videoPath), "video/webm");
+            const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`;
+            this.attach(`Trace file: ${traceFileLink}`, 'text/html');
+        }
     }
-
-    // Attach video if failed and video exists
-    if (result?.status === Status.FAILED && videoPath && fs.existsSync(videoPath)) {
-        this.attach(fs.readFileSync(videoPath), "video/webm");
-        const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`;
-        this.attach(`Trace file: ${traceFileLink}`, 'text/html');
-    }
-
 });
 
 AfterAll(async function () {
