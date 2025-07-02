@@ -36,8 +36,6 @@
         "./**/*.feature"
     ],
     "exclude": [
-        "bin",
-        "node_modules",
         "cucumber.json",
         "package.json",
         "package-lock.json",

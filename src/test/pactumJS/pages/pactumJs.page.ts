@@ -5,6 +5,8 @@ import path from "path";
 let client_id: string = '';
 let client_secret: string = '';
 let access_token: string = '';
+let responseBody = '';
+let responseStatus = '';
 const randomName = faker.person.fullName();
 const randomDescription = faker.lorem.sentence();
 const randomEmail = faker.internet.email();
@@ -12,7 +14,7 @@ pact.request.setBaseUrl('https://api.openverse.org/v1');
 pact.request.setDefaultTimeout(30000);
 
 export const oAuthToken = async () => {
-    const response = await pact.spec()
+    const oAuthResponse = await pact.spec()
         .post('/auth_tokens/register/')
         .withHeaders('Content-Type', 'application/json')
         .withBody({
@@ -24,13 +26,13 @@ export const oAuthToken = async () => {
         .returns('client_id')
         .returns('client_secret')
         .toss();
-    client_id = response[0];
-    client_secret = response[1];
+    client_id = oAuthResponse[0];
+    client_secret = oAuthResponse[1];
     console.log("Client ID: ", client_id, "Client Secret: ", client_secret);
 };
 
 export const accessToken = async () => {
-    const response = await pact.spec()
+    const accessResponse = await pact.spec()
         .post('/auth_tokens/token/')
         .withHeaders('Content-Type', 'application/x-www-form-urlencoded')
         .withForm({
@@ -41,16 +43,40 @@ export const accessToken = async () => {
         .expectStatus(200)
         .returns('access_token')
         .toss();
-    access_token = response;
+    access_token = accessResponse;
     console.log("Access Token: ", access_token);
 };
 
-export const apiRequest = async () => {
-    let response = await pact.spec()
-        .get('/audio/')
+export const apiRequest = async (endpointValue: string, identifierValue: string) => {
+    const response = await pact.spec()
+        .get(`/{endpoint}/{identifier}`)
         .withBearerToken(access_token)
-        .expectStatus(200)
-        .returns('results[0].url')
+        .withPathParams('endpoint', endpointValue)
+        .withPathParams('identifier', identifierValue)
+        .withFollowRedirects(true)
         .toss();
-    console.log("Audio URL: ", response);
+    responseBody = response.body;
+    responseStatus = response.statusCode;
+    console.log("Response Body: ", responseBody);
+    console.log("Response Status: ", responseStatus);
 };
+
+export const getResponseStatus = () => {
+    return parseInt(responseStatus);
+};
+
+export function getValueFromResponse(path: string) {
+    const responseJson = typeof responseBody === "string" ? JSON.parse(responseBody) : responseBody;
+    if (!path) return undefined;
+    // Convert brackets to dots and split
+    const parts = path.replace(/\[(\w+)\]/g, '.$1').split('.');
+    let current = responseJson;
+    for (const part of parts) {
+        if (current && typeof current === 'object' && part in current) {
+            current = current[part];
+        } else {
+            return undefined;
+        }
+    }
+    return current;
+}
