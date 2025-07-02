@@ -10,8 +10,13 @@ let responseStatus = '';
 const randomName = faker.person.fullName();
 const randomDescription = faker.lorem.sentence();
 const randomEmail = faker.internet.email();
-pact.request.setBaseUrl('https://api.openverse.org/v1');
-pact.request.setDefaultTimeout(30000);
+
+export const setPactumBaseUrl = async (url: string) => {
+    pact.request.setBaseUrl(url);
+};
+export const setPactumRequestTimeout = async (timeout: number) => {
+    pact.request.setDefaultTimeout(timeout);
+};
 
 export const oAuthToken = async () => {
     const oAuthResponse = await pact.spec()
@@ -57,8 +62,6 @@ export const apiRequest = async (endpointValue: string, identifierValue: string)
         .toss();
     responseBody = response.body;
     responseStatus = response.statusCode;
-    console.log("Response Body: ", responseBody);
-    console.log("Response Status: ", responseStatus);
 };
 
 export const getResponseStatus = () => {

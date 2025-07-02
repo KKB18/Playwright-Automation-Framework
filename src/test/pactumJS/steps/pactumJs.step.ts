@@ -1,6 +1,14 @@
 import { Given, Then, When, After, setWorldConstructor } from "@cucumber/cucumber";
 import * as page from "../pages/pactumJs.page";
 
+Given('user sets the base url to {string}', async (url:string) => {
+    await page.setPactumBaseUrl(url);
+});
+
+Given('user sets the request timeout to {int} milliseconds', async (timeout: number) => {
+    await page.setPactumRequestTimeout(timeout);
+});
+
 Given('user generates OAuth Token', async () => {
     await page.oAuthToken();
 });
@@ -28,15 +36,13 @@ Then('user assert that response body contains {string} as {string}', async (key:
         actualValue = actual.join(',');
     }
 
-    // Check for undefined before calling trim
+    // Check for undefined before comparing
     if (actualValue === undefined) {
         throw new Error(`Key "${key}" not found in response body`);
     }
 
-    // Trim both values to avoid whitespace issues
-    if (typeof actualValue === "string" && actualValue.trim() !== value.trim()) {
-        throw new Error(`Expected ${key} : ${value}, but got ${actualValue}`);
-    } else if (typeof actualValue !== "string" && actualValue !== value) {
+    // Always compare as trimmed strings
+    if (actualValue.toString().trim() !== value.toString().trim()) {
         throw new Error(`Expected ${key} : ${value}, but got ${actualValue}`);
     }
 });
