@@ -1,7 +1,7 @@
 import { Given, Then, When, setDefaultTimeout } from "@cucumber/cucumber"
 import { expect } from "@playwright/test"
 import { pageNavigation } from "../pages/pageNavigation";
-import { page, logger, browser, context, openTab } from '../helper/browser/browser';
+import { page, logger, browser, context, openTab, initBrowserRefs } from '../helper/browser/browser';
 import * as user from '../helper/testData/Users.json'
 import path from "path";
 import * as ele from "../pages/orangeHrmElements";
@@ -115,6 +115,7 @@ When('user clicks on {string} button title', async function (buttonText: string)
 
 Given('user switches to browser tab {int}', async function (tabNumber: number) {
     await openTab(tabNumber);
+    initBrowserRefs();
 });
 When('user clicks on download on row {int}', async function (row: number) {
     const download = await Promise.all([
