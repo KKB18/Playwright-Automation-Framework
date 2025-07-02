@@ -9,6 +9,8 @@ import { writeSystemInfo } from "../config/systemInfo";
 import { Logger } from "winston";
 
 export let logger: Logger;
+let hasPreviousFailure = false;
+
 
 function isApiFeature(gherkinDocument: any): boolean {
     const uri = gherkinDocument?.uri?.replace(/\\/g, '/').toLowerCase();
@@ -26,6 +28,9 @@ BeforeAll(async function () {
 });
 
 Before(async function ({ pickle, gherkinDocument }) {
+    if (hasPreviousFailure && pickle.tags.some(tag => tag.name === '@SkipOnFailure')) {
+        return 'skipped';
+    }
     await browserManager.createContextAndPage();
     logger = createTestLogger(pickle.name + pickle.id);
     // await browserManager.page.setViewportSize({ width: 1420, height: 741 });
@@ -74,6 +79,10 @@ After(async function ({ pickle, result, gherkinDocument }) {
             const traceFileLink = `<a href="https://trace.playwright.dev/">Open ${tracePath}</a>`;
             this.attach(`Trace file: ${traceFileLink}`, 'text/html');
         }
+    }
+
+    if (result?.status === Status.FAILED) {
+        hasPreviousFailure = true;
     }
 });
 
