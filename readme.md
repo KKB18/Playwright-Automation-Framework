@@ -1,11 +1,12 @@
-# Automation Framework: Cucumber - Playwright - TypeScript
+# Automation Framework: Cucumber - Playwright - TypeScript - PactumJs
 
 ## 📌 Overview
-This automation framework is built using **Cucumber**, **Playwright**, and **TypeScript** to automate web applications efficiently. It supports **BDD (Behavior Driven Development)** with feature files and ensures robust browser automation with Playwright.
+This automation framework is built using **Cucumber**, **Playwright**, **PactumJs** and **TypeScript** to automate web applications efficiently. It supports **BDD (Behavior Driven Development)** with feature files and ensures robust browser automation with Playwright.
 
 ## 🚀 Features
 - **Cucumber for BDD**: Uses Gherkin syntax for feature files.
 - **Playwright for Web Automation**: Fast and reliable cross-browser testing.
+- **Pactum JS**: Robust way of testing API's.
 - **TypeScript for Strong Typing**: Ensures maintainability and scalability.
 - **Parallel Execution**: Supports running tests concurrently.
 - **Headless & Headed Mode**: Run tests with or without a UI.
@@ -17,6 +18,9 @@ This automation framework is built using **Cucumber**, **Playwright**, and **Typ
 ├── src/test/feature/                       # Feature files (.feature)
 ├── src/test/steps/                         # Step definitions (.ts)
 ├── src/test/pages/                         # Page Object Model (.ts)
+├── src/test/pactumJS/feature/              # API Feature files (.feature)
+├── src/test/pactumJS/steps/                # Pactum Step definitions (.ts)
+├── src/test/pactumJS/pages/                # Pactum Page Object Model (.ts)
 ├── src/test/helper/hooks/                  # Hooks & configuration (.ts)
 ├── src/test/helper/browser/                # Browser, Context & Page (.ts)
 ├── src/test/helper/env/                    # Env variables (.ts) and env files (.env)
