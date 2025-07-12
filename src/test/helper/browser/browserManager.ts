@@ -49,6 +49,15 @@ class BrowserManager {
             } : undefined
         });
         this._page = await this._context.newPage();
+
+        // const cdp = this._context.newCDPSession(this._page);
+        // (await cdp).send('Network.emulateNetworkConditions', {
+        //     offline: false,
+        //     downloadThroughput: 780 * 1024 / 8,
+        //     uploadThroughput: 330 * 1024 / 8,
+        //     latency: 20
+        // });
+
         return [this._context, this._page];
     }
 

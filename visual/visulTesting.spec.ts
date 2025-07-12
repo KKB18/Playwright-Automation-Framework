@@ -1,3 +1,4 @@
+import { context } from '@cucumber/cucumber';
 import { test, expect } from '@playwright/test';
 
 test('homepage layout should be visually consistent', async ({ page }) => {

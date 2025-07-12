@@ -21,10 +21,25 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+    
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
+    // browserName: 'firefox',
+    // headless: false,
+    // colorScheme: 'dark',
+    // viewport: { width: 1280, height: 720 },
+    // ignoreHTTPSErrors: true,
+    // acceptDownloads: false,
+    // actionTimeout: 0,
+    // navigationTimeout: 0,
+    // video: 'on',
+    // storageState: 'state.json',
+    // geolocation: { longitude: 12.492507, latitude: 41.889938 },
+    // timezoneId: 'America/New_York',
+    // hasTouch: true,
+    // locale: 'en-US',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
