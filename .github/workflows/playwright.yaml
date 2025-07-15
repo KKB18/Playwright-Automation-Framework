@@ -1,24 +1,33 @@
 name: Playwright Tests
+
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: windows-latest
+    runs-on: ubuntu-latest  # switched to Linux for better container support
+    container:
+      image: mcr.microsoft.com/playwright:v1.44.0-jammy  # Official Playwright image
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
+
+    - name: Set up Node.js (version inherited from container)
+      run: node -v  # Node.js is already available in the container
+
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+
+    # Browsers are already installed in the Playwright container
+    - name: Verify Playwright installation
+      run: npx playwright --version
+
     - name: Run Playwright tests
       run: npm test --TAGS="${{ vars.TAGS }}" --ENV=${{ vars.WEBSITE }}
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
