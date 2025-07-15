@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: windows-latest  # switched to Linux for better container support
+    runs-on: ubuntu-latest  # switched to Linux for better container support
     container:
       image: mcr.microsoft.com/playwright:v1.53.2-jammy  # Official Playwright image
     steps:
