@@ -26,7 +26,7 @@ jobs:
       run: npx playwright --version
 
     - name: Run Playwright tests
-      run: npm test --ENV=${{ vars.WEBSITE }} --TAGS="${{ vars.TAGS }}" --HEAD="headless"
+      run: npm test --ENV=${{ vars.WEBSITE }} --TAGS="${{ vars.TAGS }}"
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
