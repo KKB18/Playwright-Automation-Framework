@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest  # switched to Linux for better container support
     container:
-      image: mcr.microsoft.com/playwright:v1.44.0-jammy  # Official Playwright image
+      image: mcr.microsoft.com/playwright:v1.53.2-jammy  # Official Playwright image
     steps:
     - uses: actions/checkout@v4
 
