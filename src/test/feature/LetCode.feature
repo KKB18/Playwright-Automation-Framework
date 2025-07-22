@@ -76,3 +76,9 @@ Feature: Practice and become pro in test automation
         When user drags the "Go home" work item to "Done" section
         When user drags the "Walk dog" work item to "To do" section
         When user drags the "Get to work" work item to "Done" section
+
+    @l10
+    Scenario: Play with Alerts
+        When user clicks on "DOM" link text
+        Then assert that "Shadow DOM" text is visible
+        Then user asserts that shadow dom is accessible

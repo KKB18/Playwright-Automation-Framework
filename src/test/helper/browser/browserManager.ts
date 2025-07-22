@@ -27,7 +27,7 @@ class BrowserManager {
         switch (type) {
             case "chrome": this._browser = await chromium.launch(options); break;
             // To launch any local browser we need to specify the executable path as shown below.
-            // case "brave": this._browser = await chromium.launch({ ...options, executablePath: "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe" }); break;
+            case "brave": this._browser = await chromium.launch({ ...options, executablePath: "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe" }); break;
             case "firefox": this._browser = await firefox.launch(options); break;
             case "webkit": this._browser = await webkit.launch(options); break;
             default: throw new Error(`Unknown browser type: ${type}`);

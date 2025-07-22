@@ -194,3 +194,8 @@ When('user drags the {string} work item to {string} section', async function (it
         throw new Error(`No Element found to move`)
     }
 });
+
+Then('user asserts that shadow dom is accessible', async function () {
+    console.log(await page.locator(`#open-shadow`).locator(`[for="name"]`).textContent());
+});
+
