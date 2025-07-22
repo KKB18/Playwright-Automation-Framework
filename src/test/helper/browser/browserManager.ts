@@ -42,7 +42,7 @@ class BrowserManager {
             recordVideo: {
                 dir: "test-results/videos"
             },
-            viewport: null,
+            // viewport: null,
             httpCredentials: process.env.AUTH_USER && process.env.AUTH_PASS ? {
                 username: process.env.AUTH_USER,
                 password: process.env.AUTH_PASS
@@ -79,7 +79,7 @@ class BrowserManager {
         const pages = this._context.pages();
         if (pages.length < index) {
             const newPage = await this._context.waitForEvent('page');
-            await newPage.waitForLoadState();
+            await newPage.waitForLoadState('domcontentloaded');
         }
         const allTabs = this._context.pages();
         const targetTab = allTabs[index - 1] ?? allTabs[0];
