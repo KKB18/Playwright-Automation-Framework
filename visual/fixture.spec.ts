@@ -1,17 +1,28 @@
 import { test, expect } from '../visual/browserManagerFixture';
 
-test('can open page using custom browser manager', async ({ bm, variables }) => {
+test('use storage state in access site', async ({ bm, variables }) => {
     console.log(bm.browser.browserType().name());
     console.log(variables.resolveFunction('<<today-date-time>>'));
     console.log(variables.getRandomUser());
     const context = bm.context;
     let page = bm.page;
-    await page.goto('https://letcode.in/');
-    await expect(page).toHaveTitle(/LetCode/);
+    await page.goto('https://opensource-demo.orangehrmlive.com/web');
+    await expect(page).toHaveTitle('OrangeHRM');
     await Promise.all([
         context.waitForEvent('page'),
-        page.locator(`//*[text()="Koushik Chatterjee"]`).click()
+        page.locator(`.orangehrm-upgrade-link`).click()
     ]);
     page = await bm.openTab(2);
-    await expect(page).toHaveURL(`https://www.linkedin.com/in/ortoni/`);
+    await expect(page).toHaveURL(`https://orangehrm.com/open-source/upgrade-to-advanced`);
+});
+
+test('can open page using custom browser manager', async ({ bm, variables }) => {
+    console.log(bm.browser.browserType().name());
+    console.log(variables.resolveFunction('<<today-date-time>>'));
+    console.log(variables.getRandomUser());
+    let page = bm.page;
+    await page.goto('https://opensource-demo.orangehrmlive.com/web');
+    await expect(page).toHaveTitle('OrangeHRM');
+    await page.waitForSelector('//span[text()="Performance"]', { state: 'visible', timeout: 5000 });
+    await page.locator(`//span[text()="Performance"]`).click()
 });

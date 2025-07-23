@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './visual',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -21,7 +21,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
-    
+  globalSetup:  './src/test/helper/browser/globalSetup.ts',
+  globalTeardown: './src/test/helper/browser/globalTeardown.ts',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -29,7 +30,7 @@ export default defineConfig({
     // browserName: 'firefox',
     // headless: false,
     // colorScheme: 'dark',
-    // viewport: { width: 1280, height: 720 },
+    viewport: null,
     // ignoreHTTPSErrors: true,
     // acceptDownloads: false,
     // actionTimeout: 0,

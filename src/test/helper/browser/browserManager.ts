@@ -1,7 +1,7 @@
 import { Browser, BrowserContext, Page, chromium, firefox, webkit, LaunchOptions } from "@playwright/test";
 import { getEnv } from "../env/env";
 
-class BrowserManager {
+export class BrowserManager {
     private _browser: Browser | null = null;
     private _context: BrowserContext | null = null;
     private _page: Page | null = null;
@@ -38,6 +38,7 @@ class BrowserManager {
     public async createContextAndPage(): Promise<[BrowserContext, Page]> {
         if (!this._browser) await this.launchBrowser();
         this._context = await this._browser!.newContext({
+            storageState: "./src/test/helper/browser/storageState.json",
             acceptDownloads: true,
             recordVideo: {
                 dir: "test-results/videos"
@@ -48,6 +49,7 @@ class BrowserManager {
                 password: process.env.AUTH_PASS
             } : undefined
         });
+        await this._context.storageState({ path: "./src/test/helper/browser/storageState.json" });
         this._page = await this._context.newPage();
 
         // const cdp = this._context.newCDPSession(this._page);

@@ -1,14 +1,15 @@
 import { test as baseTest } from '@playwright/test';
-import { browserManager } from '../src/test/helper/browser/browserManager';
+import { BrowserManager } from '../src/test/helper/browser/browserManager';
 import * as resolveFunction from '../src/test/helper/parameters/resolveVariable';
 
 type CustomFixtures = {
-  bm: typeof browserManager,
+  bm: BrowserManager,
   variables: typeof resolveFunction
 };
 
 export const test = baseTest.extend<CustomFixtures>({
   bm: async ({ }, use) => {
+    const browserManager = new BrowserManager();
     await browserManager.launchBrowser();
     await browserManager.createContextAndPage();
     await use(browserManager);
