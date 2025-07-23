@@ -30,3 +30,11 @@ export const resolveFunction = (input: string): string => {
             return input;
     }
 };
+
+export function getRandomUser(): { name: string, email: string } {
+    const id = Math.floor(Math.random() * 1000);
+    return {
+        name: "User" + id,
+        email: "user" + id + "@example.com"
+    };
+};
