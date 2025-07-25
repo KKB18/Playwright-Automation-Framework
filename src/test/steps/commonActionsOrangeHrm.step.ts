@@ -119,7 +119,7 @@ Given('user switches to browser tab {int}', async function (tabNumber: number) {
 });
 When('user clicks on download on row {int}', async function (row: number) {
     const download = await Promise.all([
-        page.waitForEvent("download"),
+        page.waitForEvent("download", { timeout: 5000 }),
         ele.tableDownloadIcon().nth(row - 1).click()
     ]);
     const fileName = await download[0].suggestedFilename();

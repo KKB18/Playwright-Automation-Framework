@@ -17,11 +17,11 @@ export default async () => {
     const page = await context.newPage();
 
     await page.goto('https://opensource-demo.orangehrmlive.com/web/auth/login');
-    await page.waitForLoadState('domcontentloaded');
+    await page.waitForLoadState('domcontentloaded', { timeout: 5000 });
     await page.getByPlaceholder('Username').fill('Admin'); 
     await page.getByPlaceholder('Password').fill('admin123');
     await page.getByRole('button', { name: 'Login' }).click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('networkidle', { timeout: 5000 });
     await page.waitForSelector('//span[text()="Dashboard"]', { state: 'visible', timeout: 5000 });
     // await expect(page).toHaveURL('https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index');
     await context.storageState({ path: storageStatePath });

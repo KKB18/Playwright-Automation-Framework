@@ -93,8 +93,8 @@ export class BrowserManager {
         if (!this._context) throw new Error("Context not initialized");
         const pages = this._context.pages();
         if (pages.length < index) {
-            const newPage = await this._context.waitForEvent('page');
-            await newPage.waitForLoadState('domcontentloaded');
+            const newPage = await this._context.waitForEvent('page', { timeout: 5000 });
+            await newPage.waitForLoadState('domcontentloaded', { timeout: 5000 });
         }
         const allTabs = this._context.pages();
         const targetTab = allTabs[index - 1] ?? allTabs[0];

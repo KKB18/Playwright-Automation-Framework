@@ -52,10 +52,10 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], headless: false, viewport: { width: 1920, height: 1080 } }
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'], headless: false, viewport: { width: 1920, height: 1080 } },
+    },
 
     // {
     //   name: 'webkit',

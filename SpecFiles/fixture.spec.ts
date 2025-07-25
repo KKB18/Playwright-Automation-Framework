@@ -9,7 +9,7 @@ test('use storage state in access site', async ({ bm, variables }) => {
     await page.goto('https://opensource-demo.orangehrmlive.com/web');
     await expect(page).toHaveTitle('OrangeHRM');
     await Promise.all([
-        context.waitForEvent('page'),
+        context.waitForEvent('page', { timeout: 5000 }),
         page.locator(`.orangehrm-upgrade-link`).click()
     ]);
     page = await bm.openTab(2);

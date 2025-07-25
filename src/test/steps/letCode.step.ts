@@ -48,7 +48,7 @@ Then('user asserts that {string} field is readonly', async function (fieldLabel:
 
 When('user downloads by clicking on {string}', async function (text: string) {
     const download = await Promise.all([
-        page.waitForEvent("download"),
+        page.waitForEvent("download", { timeout: 5000 }),
         lc.eleUsingLinkText(text).click()
     ]);
     const fileName = await download[0].suggestedFilename();
