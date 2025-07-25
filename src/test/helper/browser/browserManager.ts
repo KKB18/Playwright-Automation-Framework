@@ -62,7 +62,7 @@ export class BrowserManager {
                 password: process.env.AUTH_PASS
             } : undefined
         });
-        await this._context.storageState({ path: "./src/test/helper/browser/storageState.json" });
+        await this._context.storageState();
         this._page = await this._context.newPage();
 
         // const cdp = this._context.newCDPSession(this._page);
