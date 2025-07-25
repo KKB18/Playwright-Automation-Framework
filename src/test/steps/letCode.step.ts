@@ -30,7 +30,7 @@ When('user enters {string} into {string} text box', async function (value: strin
 When('user appends {string} into {string} text box', async function (value: string, fieldLabel: string) {
     await lc.textBoxUsingLabel(fieldLabel).focus();
     await lc.textBoxUsingLabel(fieldLabel).press("End");
-    await lc.textBoxUsingLabel(fieldLabel).type(value);
+    await lc.textBoxUsingLabel(fieldLabel).pressSequentially(value);
     await lc.textBoxUsingLabel(fieldLabel).press("Escape");
 });
 
@@ -55,6 +55,7 @@ When('user downloads by clicking on {string}', async function (text: string) {
     const currentRepo = path.join(__dirname, '../../..');
     const filepath = path.join(currentRepo, 'test-results');
     await download[0].saveAs(filepath + "/" + fileName);
+    this.attach(`Downloaded file: ${fileName}`, 'text/plain');
 });
 
 When('user gets x y coordinates of {string} button', async function (text: string) {
