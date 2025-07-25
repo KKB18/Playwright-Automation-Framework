@@ -1,5 +1,18 @@
 import { Browser, BrowserContext, Page, chromium, firefox, webkit, LaunchOptions } from "@playwright/test";
 import { getEnv } from "../env/env";
+import fs from "fs";
+
+async function getStorageStatePath(): Promise<boolean> {
+    try {
+        const storageStatePath = "./src/test/helper/browser/storageState.json";
+        await fs.promises.access(storageStatePath);
+        console.log(`Storage state file exists at ${storageStatePath}`);
+        return true;
+    } catch (error) {
+        console.log(`Storage state file does not exist: ${error}`);
+        return false;
+    }
+}
 
 export class BrowserManager {
     private _browser: Browser | null = null;
@@ -38,7 +51,7 @@ export class BrowserManager {
     public async createContextAndPage(): Promise<[BrowserContext, Page]> {
         if (!this._browser) await this.launchBrowser();
         this._context = await this._browser!.newContext({
-            storageState: "./src/test/helper/browser/storageState.json",
+            storageState: await getStorageStatePath() ? "./src/test/helper/browser/storageState.json" : undefined,
             acceptDownloads: true,
             recordVideo: {
                 dir: "test-results/videos"

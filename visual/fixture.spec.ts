@@ -26,3 +26,4 @@ test('can open page using custom browser manager', async ({ bm, variables }) => 
     await page.waitForSelector('//span[text()="Performance"]', { state: 'visible', timeout: 5000 });
     await page.locator(`//span[text()="Performance"]`).click()
 });
+

@@ -33,7 +33,7 @@ module.exports = {
         // publishQuiet: true,
         //"Checks the features have valid step definitions without executing them"
         dryRun: false,
-        //"This is a specific option within the cucumber.json file that instructs Cucumber to use ts-node to register your TypeScript step definitions and hooks before running your tests"
+        //"This is a specific option within the cucumber.js file that instructs Cucumber to use ts-node to register your TypeScript step definitions and hooks before running your tests"
         requireModule: [
             "ts-node/register"
         ],
