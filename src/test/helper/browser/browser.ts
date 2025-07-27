@@ -22,9 +22,23 @@ export function initBrowserRefs() {
 
 export const openTab = (index: number) => browserManager.openTab(index);
 export { logger };
-export const closeAll = async () => {
+export const closePage = async () => {
     try {
-        await browserManager.closeAll();
+        await browserManager.closePage();
+    } catch (error) {
+        logger.error(`Error closing page: ${error}`);
+    }
+};
+export const closeContext = async () => {
+    try {
+        await browserManager.closeContext();
+    } catch (error) {
+        logger.error(`Error closing context: ${error}`);
+    }
+};
+export const closeBrowser = async () => {
+    try {
+        await browserManager.closeBrowser();
     } catch (error) {
         logger.error(`Error closing browser: ${error}`);
     }

@@ -103,9 +103,13 @@ export class BrowserManager {
         return this._page;
     }
 
-    public async closeAll(): Promise<void> {
+    public async closePage(): Promise<void> {
         if (this._page) await this._page.close();
+    }
+    public async closeContext(): Promise<void> {
         if (this._context) await this._context.close();
+    }
+    public async closeBrowser(): Promise<void> {
         if (this._browser) await this._browser.close();
     }
 }

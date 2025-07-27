@@ -1,4 +1,4 @@
-import { test, expect } from '../visual/browserManagerFixture';
+import { test, expect } from '../SpecFiles/browserManagerFixture';
 
 test('use storage state in access site', async ({ bm, variables }) => {
     console.log(bm.browser.browserType().name());

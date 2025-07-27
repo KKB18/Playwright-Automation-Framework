@@ -84,9 +84,11 @@ After(async function ({ pickle, result, gherkinDocument }) {
     if (result?.status === Status.FAILED) {
         hasPreviousFailure = true;
     }
+    browserManager.closePage();
+    browserManager.closeContext();
 });
 
 AfterAll(async function () {
-    await browserManager.browser.close();
+    await browserManager.closeBrowser();
     logger.close();
 });

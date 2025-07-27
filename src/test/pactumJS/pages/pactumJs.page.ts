@@ -71,8 +71,10 @@ export const getResponseStatus = () => {
 export function getValueFromResponse(path: string) {
     const responseJson = typeof responseBody === "string" ? JSON.parse(responseBody) : responseBody;
     if (!path) return undefined;
+    console.log("Response JSON: ", responseJson);
     // Convert brackets to dots and split
     const parts = path.replace(/\[(\w+)\]/g, '.$1').split('.');
+    console.log("Path parts: ", parts);
     let current = responseJson;
     for (const part of parts) {
         if (current && typeof current === 'object' && part in current) {

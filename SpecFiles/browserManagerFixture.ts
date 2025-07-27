@@ -13,7 +13,7 @@ export const test = baseTest.extend<CustomFixtures>({
     await browserManager.launchBrowser();
     await browserManager.createContextAndPage();
     await use(browserManager);
-    await browserManager.closeAll();
+    await browserManager.closeBrowser();
   },
   variables: async ({ }, use) => {
     await use(resolveFunction);
