@@ -22,21 +22,21 @@
   "My Comment-devDependencies": "These packages are only needed for development purposed",
   "devDependencies": {
     "@cucumber/cucumber": "^12.1.0",
-    "@cucumber/pretty-formatter": "^2.0.1",
+    "@cucumber/pretty-formatter": "^2.1.0",
     "eslint-plugin-cucumber": "^2.0.0",
-    "playwright": "^1.54.1"
+    "playwright": "^1.55.0"
   },
   "My Comment-dependencies": "These packages are required for the application to run in production",
   "dependencies": {
     "@faker-js/faker": "^9.9.0",
-    "@playwright/test": "^1.54.1",
+    "@playwright/test": "^1.55.0",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^24.1.0",
+    "@types/node": "^24.3.0",
     "cross-env": "^10.0.0",
     "cucumber": "^6.0.7",
     "cucumber-console-formatter": "^1.0.0",
     "cucumber-html-reporter": "^7.2.0",
-    "date-and-time": "^3.6.0",
+    "date-and-time": "^4.0.2",
     "dotenv": "^17.2.1",
     "fs": "^0.0.1-security",
     "multiple-cucumber-html-reporter": "^3.9.3",
