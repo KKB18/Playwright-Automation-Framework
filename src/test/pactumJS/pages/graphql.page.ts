@@ -1,4 +1,6 @@
 import * as pact from "pactum";
+import path from "path";
+import { deepCompareWithPlaceholders, parseIfJson } from "../helper/jsonCompare";
 export let responseStatus: number;
 export let responseBody: any;
 
@@ -31,9 +33,25 @@ export const getResponseStatus = (): number => {
     return responseStatus;
 };
 
-export const graphqlResponseMatchesSnapshot = async (filePath: string) => {
-    const expectedResponse = require(`../graphqlPayloadAndRespnse/${filePath}`);
-    if (JSON.stringify(responseBody) !== JSON.stringify(expectedResponse.response)) {
-        throw new Error(`Response does not match snapshot: ${filePath}`);
-    }
+export const graphqlResponseMatchesSnapshot = async (filePath: string): Promise<void> => {
+  const expectedResponse = require(`../graphqlPayloadAndRespnse/${filePath}`);
+
+  // Step 1: Ensure both are proper JSON
+  const expectedJson = parseIfJson(expectedResponse.response);
+  const actualJson = parseIfJson(responseBody);
+
+  // Step 2: Compare deeply
+  const result = deepCompareWithPlaceholders(actualJson, expectedJson);
+
+  // Step 3: Throw detailed error if mismatch
+  if (!result.match) {
+    const errorDetails = `
+❌ Snapshot mismatch at: ${filePath}
+🔹 Path: ${result.path}
+🔹 ${result.message}
+🔹 Expected: ${JSON.stringify(expectedJson, null, 2)}
+🔹 Actual:   ${JSON.stringify(actualJson, null, 2)}
+`;
+    throw new Error(errorDetails);
+  }
 };

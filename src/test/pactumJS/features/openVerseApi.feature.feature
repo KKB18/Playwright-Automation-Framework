@@ -2,7 +2,7 @@
 Feature: Practice API
 Testing openVerse api
 
-    @SkipOnFailure
+    @SkipOnFailure @api
     Scenario: Setting baseurl, timeout and generating tokens
         Given user sets the base url to "https://api.openverse.org/v1"
             And user sets the request timeout to 30000 milliseconds

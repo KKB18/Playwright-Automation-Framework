@@ -8,11 +8,16 @@ import { writeSystemInfo } from "../config/systemInfo";
 import { Logger } from "winston";
 
 export let logger: Logger;
-let hasPreviousFailure = false;
+// Replace global flag with a Map to track failures per feature
+const failedFeatures = new Map<string, boolean>();
 
 function isApiFeature(gherkinDocument: any): boolean {
     const uri = gherkinDocument?.uri?.replace(/\\/g, '/').toLowerCase();
     return uri?.includes('pactumjs/features');
+}
+
+function getFeatureId(gherkinDocument: any): string {
+    return gherkinDocument?.uri || 'unknown';
 }
 
 setDefaultTimeout(60 * 1000 * 4);
@@ -26,9 +31,12 @@ BeforeAll(async function () {
 });
 
 Before(async function ({ pickle, gherkinDocument }) {
-    if (hasPreviousFailure && pickle.tags.some(tag => tag.name === '@SkipOnFailure')) {
+    const featureId = getFeatureId(gherkinDocument);
+    console.log("Feature ID:", featureId);
+    if (failedFeatures.get(featureId) && pickle.tags.some(tag => tag.name === '@SkipOnFailure')) {
         return 'skipped';
     }
+    
     if (!isApiFeature(gherkinDocument)) {
         await browserManager.createContextAndPage();
         initBrowserRefs();
@@ -78,8 +86,10 @@ After(async function ({ pickle, result, gherkinDocument }) {
             }
         }
 
+        // Update failure status for this specific feature
         if (result?.status === Status.FAILED) {
-            hasPreviousFailure = true;
+            const featureId = getFeatureId(gherkinDocument);
+            failedFeatures.set(featureId, true);
         }
     } catch (error) {
         console.error("Error in After hook:", error);
