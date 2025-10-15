@@ -10,6 +10,12 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  reporter: [
+    ['list'], // show results in console
+    ['html', { outputFolder: 'test-results', open: 'never' }],
+    ['json', { outputFile: 'test-results/report.json' }],
+    ['junit', { outputFile: 'test-results/report.xml' }]
+  ],
   testDir: './SpecFiles',
   /* Run tests in files in parallel */
   fullyParallel: false,
@@ -20,9 +26,9 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  globalSetup:  './src/test/helper/browser/globalSetup.ts',
+  globalSetup: './src/test/helper/browser/globalSetup.ts',
   globalTeardown: './src/test/helper/browser/globalTeardown.ts',
+  globalTimeout: 60 * 60 * 1000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -41,6 +47,7 @@ export default defineConfig({
     // timezoneId: 'America/New_York',
     // hasTouch: true,
     // locale: 'en-US',
+    
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

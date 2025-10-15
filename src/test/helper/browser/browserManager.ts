@@ -1,4 +1,4 @@
-import { Browser, BrowserContext, Page, chromium, firefox, webkit, LaunchOptions } from "@playwright/test";
+import { Browser, BrowserContext, Page, chromium, firefox, webkit, LaunchOptions, CDPSession } from "@playwright/test";
 import { getEnv } from "../env/env";
 import fs from "fs";
 
@@ -18,6 +18,7 @@ export class BrowserManager {
     private _browser: Browser | null = null;
     private _context: BrowserContext | null = null;
     private _page: Page | null = null;
+    private cdp: CDPSession | null = null;
 
     private getLaunchOptions(): LaunchOptions {
         getEnv();
@@ -65,15 +66,34 @@ export class BrowserManager {
         await this._context.storageState();
         this._page = await this._context.newPage();
 
-        // const cdp = this._context.newCDPSession(this._page);
-        // (await cdp).send('Network.emulateNetworkConditions', {
+        this.cdp = await this._context.newCDPSession(this._page);
+
+        // To stimulate network speed and latency
+        // await this.cdp.send('Network.emulateNetworkConditions', {
         //     offline: false,
         //     downloadThroughput: 780 * 1024 / 8,
         //     uploadThroughput: 330 * 1024 / 8,
         //     latency: 20
         // });
+        // Capture all network requests and responses
+        // await this.cdp.send('Network.enable');
+        // this.cdp.on('Network.requestWillBeSent', (request) => {
+        //     // Uncomment below line to see all network requests in console
+        //     console.log('Request:', request.request.url);
+        // });
+        // this.cdp.on('Network.responseReceived', (response) => {
+        //     // Uncomment below line to see all network responses in console
+        //     console.log('Response:', response.response.url, response.response.status);
+        // });
+        // Test browser performance metrics
+        await this.cdp.send('Performance.enable');
 
         return [this._context, this._page];
+    }
+    public async getPerformanceMetrics(): Promise<any> {
+        if (!this._context || !this._page) throw new Error("Context or Page not initialized");
+        const metrics = await this.cdp!.send('Performance.getMetrics');
+        return metrics;
     }
 
     public get browser(): Browser {

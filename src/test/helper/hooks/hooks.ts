@@ -32,18 +32,17 @@ BeforeAll(async function () {
 
 Before(async function ({ pickle, gherkinDocument }) {
     const featureId = getFeatureId(gherkinDocument);
-    console.log("Feature ID:", featureId);
     if (failedFeatures.get(featureId) && pickle.tags.some(tag => tag.name === '@SkipOnFailure')) {
         return 'skipped';
     }
-    
+
     if (!isApiFeature(gherkinDocument)) {
         await browserManager.createContextAndPage();
         initBrowserRefs();
         await startTracing(browserManager.context, pickle.name + pickle.id, pickle.name);
     }
     logger = createTestLogger(pickle.name + pickle.id);
-    
+
     const scenarioTags = pickle.tags.map(tag => tag.name).join(' ');
     if (scenarioTags) console.log(`${scenarioTags}`);
     console.log(`${pickle.name}`);
@@ -55,12 +54,14 @@ AfterStep(async function ({ pickle, gherkinDocument }) {
         this.attach(img, "image/png");
         await browserManager.page.waitForLoadState('domcontentloaded', { timeout: 100000 });
     }
+    // To fetch and print Performance Metrics after each step
+    // console.log(await browserManager.getPerformanceMetrics());
 });
 
 After(async function ({ pickle, result, gherkinDocument }) {
     try {
         if (!isApiFeature(gherkinDocument)) {
-            const tracePath = `./test-results/trace/${pickle.id}.zip`;
+            const tracePath = `./test-results/trace/${pickle.name + pickle.id}.zip`;
             await stopTracing(browserManager.context, tracePath);
 
             if (browserManager.page) {

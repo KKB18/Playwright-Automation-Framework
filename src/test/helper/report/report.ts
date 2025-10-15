@@ -87,20 +87,19 @@ async function generateReport() {
 
         // Generate individual feature reports
         for (const feature of cucumberResults) {
-            const featureDir = path.join(jsonResultsPath, 'reports', feature.name);
+            const featureTitle = feature.name.replace(/[^a-zA-Z0-9]/g, '_');
+            const featureDir = path.join(jsonResultsPath, 'reports', featureTitle);
             await fs.ensureDir(featureDir);
             
-            // Create temporary JSON file for this feature
             const tempJsonDir = path.join(featureDir, 'json');
             await fs.ensureDir(tempJsonDir);
             await fs.writeJson(path.join(tempJsonDir, 'feature.json'), [feature]);
 
-            // Generate report for this feature
             report.generate({
                 jsonDir: tempJsonDir,
                 reportPath: featureDir,
-                reportName: feature.name,
-                pageTitle: feature.name,
+                reportName: featureTitle,  // This will be used in the filename
+                pageTitle: feature.name,   // This will be shown in the browser tab
                 displayDuration: true,
                 metadata: {
                     browser: {
@@ -125,15 +124,22 @@ async function generateReport() {
                 }
             });
 
-            // Clean up temporary JSON directory
             await fs.remove(tempJsonDir);
+            
+            // Rename index.html to feature title
+            const oldPath = path.join(featureDir, 'index.html');
+            const newPath = path.join(featureDir, `${featureTitle}.html`);
+            if (await fs.pathExists(oldPath)) {
+                await fs.rename(oldPath, newPath);
+            }
         }
 
-        // Generate combined report
+        // Update links in the full report to point to renamed files
         const reportsList = cucumberResults.map((feature: { name: any; elements: string | any[]; description: any; }) => {
+            const featureTitle = feature.name.replace(/[^a-zA-Z0-9]/g, '_');
             return `
                 <tr>
-                    <td><a href="./${feature.name}/index.html">${feature.name}</a></td>
+                    <td><a href="./${featureTitle}/${featureTitle}.html" target="_blank">${feature.name}</a></td>
                     <td>${feature.elements?.length || 0}</td>
                     <td>${feature.description || "NA"}</td>
                 </tr>`;
