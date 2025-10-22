@@ -26,8 +26,8 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  globalSetup: './src/test/helper/browser/globalSetup.ts',
-  globalTeardown: './src/test/helper/browser/globalTeardown.ts',
+  // globalSetup: './src/test/helper/browser/globalSetup.ts',
+  // globalTeardown: './src/test/helper/browser/globalTeardown.ts',
   globalTimeout: 60 * 60 * 1000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -56,7 +56,7 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'], headless: false, viewport: { width: 1920, height: 1080 } }
+      use: { ...devices['Desktop Chrome'], headless: true, viewport: { width: 1920, height: 1080 } }
     },
 
     // {

@@ -1,9 +1,16 @@
 {
   "name": "playwright",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright Automation Framework Using Cucumber as test runner and using PactumJs for automation API TC's",
+  "keywords": [
+    "Playwright",
+    "Cucumber",
+    "Typescript",
+    "REST",
+    "GraphQL",
+    "PactumJs"
+  ],
   "format": "prettier --write \"/*.{ts,tsx,css,html}\" ",
-  "main": "index.js",
   "scripts": {
     "My comments 1": "pretest --> for executing any command before the actual test, here used to run init.ts file which is used check the presence of test-results folder",
     "pretest": "rimraf ScreenShots && rimraf src/test/helper/testData/systemInfo.json && npx ts-node src/test/helper/report/init.ts",
@@ -16,34 +23,33 @@
     "My comments 5": "posttest:failed --> for executing any command after the rerun of failed tests i.e. test:failed, here to create a custom html report",
     "posttest:failed": "npx ts-node src/test/helper/report/report.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Karthik K Bhat",
+  "license": "MIT",
   "My Comment-devDependencies": "These packages are only needed for development purposed",
   "devDependencies": {
-    "@cucumber/cucumber": "^12.1.0",
-    "@cucumber/pretty-formatter": "^2.1.0",
+    "@cucumber/cucumber": "^12.2.0",
+    "cucumber": "^6.0.7",
+    "cucumber-console-formatter": "^1.0.0",
+    "@cucumber/pretty-formatter": "^2.3.0",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.9.1",
+    "@types/fs-extra": "^11.0.4",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
+    "fs": "^0.0.1-security",
+    "multiple-cucumber-html-reporter": "^3.9.3",
+    "pactum": "^3.8.0",
+    "screen-resolution": "^1.0.0",
     "eslint-plugin-cucumber": "^2.0.0",
-    "playwright": "^1.55.0"
+    "playwright": "^1.56.1"
   },
   "My Comment-dependencies": "These packages are required for the application to run in production",
   "dependencies": {
-    "@faker-js/faker": "^9.9.0",
-    "@playwright/test": "^1.55.0",
-    "@types/fs-extra": "^11.0.4",
-    "@types/node": "^24.3.0",
-    "cross-env": "^10.0.0",
-    "cucumber": "^6.0.7",
-    "cucumber-console-formatter": "^1.0.0",
+    "@faker-js/faker": "^10.1.0",
     "cucumber-html-reporter": "^7.2.0",
-    "date-and-time": "^4.0.2",
-    "dotenv": "^17.2.1",
-    "fs": "^0.0.1-security",
-    "multiple-cucumber-html-reporter": "^3.9.3",
+    "date-and-time": "^4.1.0",
     "os": "^0.1.2",
-    "pactum": "^3.8.0",
-    "screen-resolution": "^1.0.0",
     "ts-node": "^10.9.2",
-    "winston": "^3.17.0"
+    "winston": "^3.18.3"
   }
 }

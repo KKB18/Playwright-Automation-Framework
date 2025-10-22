@@ -20,7 +20,7 @@ Then('assert that the {string} text is visible', async function (text: string) {
 });
 
 When('user clicks on shadow button', async function () {
-    // //Executes JavaScript in the browser context and returns a value directly (like a string, number, or a JSON-serializable object).
+    //Executes JavaScript in the browser context and returns a value directly (like a string, number, or a JSON-serializable object).
     // let textContent = await page.evaluate(() => document.querySelector('#shadow-host')?.shadowRoot?.querySelector('#my-btn')?.textContent);
     // console.log(textContent)
     
