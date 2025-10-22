@@ -120,7 +120,7 @@ test('File Downloader page for Automation Testing Practice', async ({ page }, te
     await captureStep(page, testInfo);
 });
 
-test.only('Dynamic Table page for Automation Testing Practice', async ({ page }, testInfo) => {
+test('Dynamic Table page for Automation Testing Practice', async ({ page }, testInfo) => {
     await page.goto('https://practice.expandtesting.com/dynamic-table', { waitUntil: 'domcontentloaded', timeout: 5000 });
     await expect(page.locator(`//h1[text()='Dynamic Table page for Automation Testing Practice']`)).toBeVisible();
     let headerElements = await page.locator(`//table[@class="table table-striped"]/thead/tr/th`);
@@ -227,8 +227,8 @@ test('JavaScript Dialogs page for Automation Testing Practice', async ({ page },
     });
 });
 
-test('Horizontal Slider page for Automation Testing Practice', async ({ page }, testInfo) => {
-    await page.goto('https://practice.expandtesting.com/horizontal-slider', { waitUntil: 'domcontentloaded', timeout: 5000 });
+test.only('Horizontal Slider page for Automation Testing Practice', async ({ page }, testInfo) => {
+    await page.goto('/horizontal-slider', { waitUntil: 'domcontentloaded', timeout: 5000 });
     await page.locator(`//h1[text()='Horizontal Slider page for Automation Testing Practice']`).isVisible({ timeout: 3000 });
     let slider = page.locator(`[type="range"]`);
     await slider.fill("2.5");

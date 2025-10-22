@@ -1,10 +1,17 @@
 import { defineConfig, devices } from '@playwright/test';
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+// import dotenv from 'dotenv'; 
+// const env = process.env.env || 'letCode';
+// dotenv.config({ path: `./src/test/helper/env/.env.${env}` });
+/**
+ * If using the env variables from .env then use below cli command 
+ * npx cross-env env=expandTesting npx playwright test SpecFiles/expandTestingPractice.spec.ts --headed
+ * Also use the variables in env file as below
+ * baseURL: process.env.BASEURL
+ */
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -32,7 +39,8 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    // baseURL: 'https://practice.expandtesting.com',
+    // baseURL: process.env.BASEURL,
     // browserName: 'firefox',
     // headless: true,
     // colorScheme: 'dark',
@@ -47,7 +55,7 @@ export default defineConfig({
     // timezoneId: 'America/New_York',
     // hasTouch: true,
     // locale: 'en-US',
-    
+
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

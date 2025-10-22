@@ -7,6 +7,12 @@ import { startTracing, stopTracing } from "../config/tracingUtils";
 import { writeSystemInfo } from "../config/systemInfo";
 import { Logger } from "winston";
 
+/**
+ * import type { ITestCaseHookParameter, ITestStepHookParameter } from '@cucumber/cucumber';
+ * instead of deconstructed objects { pickle, gherkinDocument } we can use the ITestCaseHookParameter and ITestStepHookParameter
+ * where we can pass scenario: ITestCaseHookParameter and test: ITestStepHookParameter which can used to access further objects
+ */
+
 export let logger: Logger;
 // Replace global flag with a Map to track failures per feature
 const failedFeatures = new Map<string, boolean>();
