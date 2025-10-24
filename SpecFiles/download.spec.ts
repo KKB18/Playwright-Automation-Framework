@@ -4,6 +4,7 @@ import * as path from 'path';
 import { URL } from 'url';
 import { test, expect } from '@playwright/test';
 
+
 test('download the json content opening in next tab', async ({ page }) => {
   await page.goto('https://practice.expandtesting.com/notes/api/api-docs/');
   await expect(page).toHaveTitle('Swagger-Notes API Documentation');

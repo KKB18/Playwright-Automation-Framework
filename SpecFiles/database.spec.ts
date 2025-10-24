@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { Client } from 'pg'; 
+// import { Client } from 'pg'; 
 
 // Example for PostgreSQL 
 // // Database configuration (ideally loaded from environment variables or a config file)

@@ -16,7 +16,7 @@ test('Web inputs page for Automation Testing Practice', async ({ page }, testInf
     await page.locator(`#input-date`).pressSequentially("12122025");
     await captureStep(page, testInfo);
     await page.locator(`#btn-display-inputs`).click();
-    expect(page.locator(`#btn-clear-inputs`).isVisible());
+    expect(await page.locator(`#btn-clear-inputs`).isVisible()).toBe(true);
     await captureStep(page, testInfo);
     await expect(page.locator(`#output-number`)).toHaveText("25");
     await expect(page.locator(`#output-text`)).toHaveText("Username");
