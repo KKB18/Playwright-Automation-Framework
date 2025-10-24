@@ -10,3 +10,4 @@ ScreenShots/
 tsx/
 */systemInfo.json
 SpecFiles/test-results/
+src/test/helper/testData/systemInfo.json
