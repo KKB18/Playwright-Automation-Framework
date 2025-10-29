@@ -1,5 +1,6 @@
 import test, { ElementHandle, expect, Page, TestInfo } from "@playwright/test";
 import path, { join } from "path";
+import { browser } from "src/test/helper/browser/browser";
 import { silly } from "winston";
 
 async function captureStep(page: Page, testInfo: TestInfo, stepName?: string) {
@@ -227,7 +228,7 @@ test('JavaScript Dialogs page for Automation Testing Practice', async ({ page },
     });
 });
 
-test.only('Horizontal Slider page for Automation Testing Practice', async ({ page }, testInfo) => {
+test('Horizontal Slider page for Automation Testing Practice', async ({ page }, testInfo) => {
     await page.goto('/horizontal-slider', { waitUntil: 'domcontentloaded', timeout: 5000 });
     await page.locator(`//h1[text()='Horizontal Slider page for Automation Testing Practice']`).isVisible({ timeout: 3000 });
     let slider = page.locator(`[type="range"]`);

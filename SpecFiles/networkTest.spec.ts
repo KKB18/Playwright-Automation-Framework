@@ -1,5 +1,4 @@
-import { test, expect, APIRequestContext } from "@playwright/test";
-import { promiseHooks } from "v8";
+import { test, expect, APIRequestContext, request } from "@playwright/test";
 
 test("Mock API response to 404 not found", async ({ page }) => {
   await page.route(
@@ -22,8 +21,8 @@ test("Mock API response to 404 not found", async ({ page }) => {
 test.describe("API Tests", () => {
   let apiContext: APIRequestContext;
 
-  test.beforeAll(async ({ playwright }) => {
-    apiContext = await playwright.request.newContext({
+  test.beforeAll(async () => {
+    apiContext = await request.newContext({
       baseURL: "https://jsonplaceholder.typicode.com",
       extraHTTPHeaders: {
         Accept: "application/json",
@@ -35,7 +34,7 @@ test.describe("API Tests", () => {
     await apiContext.dispose();
   });
 
-  test("should fetch a list of posts", async () => {
+  test("should fetch a list of posts @API", async () => {
     const response = await apiContext.get("/posts");
     expect(response.ok()).toBeTruthy();
     const posts = await response.json();
