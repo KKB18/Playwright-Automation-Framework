@@ -1,6 +1,7 @@
-import { Browser, BrowserContext, Page, chromium, firefox, webkit, LaunchOptions, CDPSession } from "@playwright/test";
+import { Browser, BrowserContext, Page, chromium, firefox, webkit, LaunchOptions, CDPSession, devices } from "@playwright/test";
 import { getEnv } from "../env/env";
-import fs from "fs";
+import fs from "fs";""
+const deviceName = devices["iPhone 15"] ;
 
 async function getStorageStatePath(): Promise<boolean> {
     try {
@@ -53,12 +54,13 @@ export class BrowserManager {
     public async createContextAndPage(): Promise<[BrowserContext, Page]> {
         if (!this._browser) await this.launchBrowser();
         this._context = await this._browser!.newContext({
+            ...deviceName, // Specify the type of device at the top and make sure viewport is not passed as null or remove the option
             storageState: await getStorageStatePath() ? "./src/test/helper/browser/storageState.json" : undefined,
             acceptDownloads: true,
             recordVideo: {
                 dir: "test-results/videos"
             },
-            // viewport: null,
+            viewport: null,
             httpCredentials: process.env.AUTH_USER && process.env.AUTH_PASS ? {
                 username: process.env.AUTH_USER,
                 password: process.env.AUTH_PASS

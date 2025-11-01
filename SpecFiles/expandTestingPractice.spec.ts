@@ -8,26 +8,34 @@ async function captureStep(page: Page, testInfo: TestInfo, stepName?: string) {
     await testInfo.attach(stepName || "Generic Screen Shot", { body: screenshot, contentType: 'image/png' });
 }
 
-test('Web inputs page for Automation Testing Practice', async ({ page }, testInfo) => {
-    await page.goto('https://practice.expandtesting.com/inputs', { waitUntil: 'domcontentloaded', timeout: 5000 });
-    await page.locator(`//h1[text()='Web inputs page for Automation Testing Practice']`).isVisible({ timeout: 3000 });
-    await page.locator(`#input-number`).fill("25");
-    await page.locator(`#input-text`).fill("Username");
-    await page.locator(`#input-password`).fill("Password");
-    await page.locator(`#input-date`).pressSequentially("12122025");
-    await captureStep(page, testInfo);
-    await page.locator(`#btn-display-inputs`).click();
-    expect(await page.locator(`#btn-clear-inputs`).isVisible()).toBe(true);
-    await captureStep(page, testInfo);
-    await expect(page.locator(`#output-number`)).toHaveText("25");
-    await expect(page.locator(`#output-text`)).toHaveText("Username");
-    await expect(page.locator(`#output-password`)).toHaveText("Password");
-    await expect(page.locator(`#output-date`)).toHaveText("2025-12-12");
-    await page.locator(`#btn-clear-inputs`).click();
-    await expect(page.locator(`#output-number`)).toBeHidden();
-    await captureStep(page, testInfo);
+test('Web inputs page for Automation Testing Practice',
+    {
+        tag: '@A1',
+        annotation: {
+            type: 'Test Case Link',
+            description: 'https://cloudEnterprise.com/Feature/US/testcase/23180',
+        },
+    },
+    async ({ page }, testInfo) => {
+        await page.goto('https://practice.expandtesting.com/inputs', { waitUntil: 'domcontentloaded', timeout: 5000 });
+        await page.locator(`//h1[text()='Web inputs page for Automation Testing Practice']`).isVisible({ timeout: 3000 });
+        await page.locator(`#input-number`).fill("25");
+        await page.locator(`#input-text`).fill("Username");
+        await page.locator(`#input-password`).fill("Password");
+        await page.locator(`#input-date`).pressSequentially("12122025");
+        await captureStep(page, testInfo);
+        await page.locator(`#btn-display-inputs`).click();
+        expect(await page.locator(`#btn-clear-inputs`).isVisible()).toBe(true);
+        await captureStep(page, testInfo);
+        await expect(page.locator(`#output-number`)).toHaveText("25");
+        await expect(page.locator(`#output-text`)).toHaveText("Username");
+        await expect(page.locator(`#output-password`)).toHaveText("Password");
+        await expect(page.locator(`#output-date`)).toHaveText("2025-12-12");
+        await page.locator(`#btn-clear-inputs`).click();
+        await expect(page.locator(`#output-number`)).toBeHidden();
+        await captureStep(page, testInfo);
 
-});
+    });
 
 test('Dynamic pagination Table page for Automation Testing Practice', async ({ page }, testInfo) => {
     await page.goto('https://practice.expandtesting.com/dynamic-pagination-table', { waitUntil: 'domcontentloaded', timeout: 5000 });
@@ -149,7 +157,7 @@ test('Dynamic Table page for Automation Testing Practice', async ({ page }, test
                 }
             }
             if (flag === true) break;
-        } 
+        }
     }
     else {
         console.error(`Unable to find columns with specified names`)
@@ -235,4 +243,23 @@ test('Horizontal Slider page for Automation Testing Practice', async ({ page }, 
     await slider.fill("2.5");
     console.log(await page.locator(`#range`).innerText());
     await captureStep(page, testInfo);
+});
+
+
+test.describe.configure({ mode: 'serial', retries: 2, timeout: 20_000 });
+test.describe.skip('two annotated tests', {
+    tag: "@A2",
+    annotation: {
+        type: 'issue',
+        description: 'https://github.com/microsoft/playwright/issues/23180',
+    },
+}, () => {
+    test.use({ locale: 'en-US' });
+    test('one', async ({ page }) => {
+        // ...
+    });
+
+    test('two', async ({ page }) => {
+        // ...
+    });
 });
