@@ -246,8 +246,18 @@ test('Horizontal Slider page for Automation Testing Practice', async ({ page }, 
 });
 
 
+test('Dynamic Table page for Automation Testing Practice using Text Content/ InnerTexts', { tag: "@D1" }, async ({ page }, testInfo) => {
+    await page.goto('https://practice.expandtesting.com/dynamic-table', { waitUntil: 'domcontentloaded', timeout: 5000 });
+    await expect(page.locator(`//h1[text()='Dynamic Table page for Automation Testing Practice']`)).toBeVisible();
+    let headerElements = page.locator(`//table[@class="table table-striped"]/thead/tr/th`);
+    let bodyElements = page.locator(`//table[@class="table table-striped"]/tbody/tr/td`);
+    console.log(await headerElements.allInnerTexts())
+    console.log(await bodyElements.allInnerTexts())
+});
+
+
 test.describe.configure({ mode: 'serial', retries: 2, timeout: 20_000 });
-test.describe.skip('two annotated tests', {
+test.describe('two annotated tests', {
     tag: "@A2",
     annotation: {
         type: 'issue',
@@ -255,11 +265,30 @@ test.describe.skip('two annotated tests', {
     },
 }, () => {
     test.use({ locale: 'en-US' });
-    test('one', async ({ page }) => {
+
+    test.skip(({ browserName }) => browserName !== 'firefox', 'firefox only!');
+
+    test('one', {
+        tag: "@AB",
+        annotation: {
+            type: 'issue',
+            description: 'https://github.com/microsoft/playwright/issues/23188',
+        }
+    }, async ({ page, browserName }) => {
+        // test.skip(browserName !== 'chromium', 'Chromium only!');
+        console.log("1st one")
         // ...
     });
 
-    test('two', async ({ page }) => {
+    test('two', {
+        tag: "@AC",
+        annotation: {
+            type: 'issue',
+            description: 'https://github.com/microsoft/playwright/issues/23189',
+        }
+    }, async ({ page, browserName }) => {
+        // test.skip(browserName !== 'webkit', 'Chromium only!');
+        console.log("2nd one")
         // ...
     });
 });
