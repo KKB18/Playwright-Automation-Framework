@@ -53,8 +53,8 @@ export class BrowserManager {
     }
     public async createContextAndPage(): Promise<[BrowserContext, Page]> {
         if (!this._browser) await this.launchBrowser();
-        // this._context = await this._browser!.newContext({
-            ...deviceName, // Specify the type of device at the top and make sure viewport is not passed as null or remove the option
+        this._context = await this._browser!.newContext({
+            // ...deviceName, // Specify the type of device at the top and make sure viewport is not passed as null or remove the option
             storageState: await getStorageStatePath() ? "./src/test/helper/browser/storageState.json" : undefined,
             acceptDownloads: true,
             recordVideo: {
