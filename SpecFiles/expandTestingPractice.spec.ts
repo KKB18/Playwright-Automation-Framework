@@ -256,7 +256,7 @@ test('Dynamic Table page for Automation Testing Practice using Text Content/ Inn
 });
 
 
-test.describe.configure({ mode: 'serial', retries: 2, timeout: 20_000 });
+test.describe.configure({ mode: 'serial', retries: 0, timeout: 20_000 });
 test.describe('two annotated tests', {
     tag: "@A2",
     annotation: {
@@ -276,6 +276,7 @@ test.describe('two annotated tests', {
         }
     }, async ({ page, browserName }) => {
         // test.skip(browserName !== 'chromium', 'Chromium only!');
+        await page.goto('https://google.com', { waitUntil: 'domcontentloaded' });
         console.log("1st one")
         // ...
     });
