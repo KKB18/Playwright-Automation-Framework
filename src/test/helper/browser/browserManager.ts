@@ -68,7 +68,7 @@ export class BrowserManager {
         });
         this._page = await this._context.newPage();
 
-        this.cdp = await this._context.newCDPSession(this._page);
+        // this.cdp = await this._context.newCDPSession(this._page);
 
         // To stimulate network speed and latency
         // await this.cdp.send('Network.emulateNetworkConditions', {
@@ -88,7 +88,7 @@ export class BrowserManager {
         //     console.log('Response:', response.response.url, response.response.status);
         // });
         // Test browser performance metrics
-        await this.cdp.send('Performance.enable');
+        // await this.cdp.send('Performance.enable');
 
         return [this._context, this._page];
     }
