@@ -36,6 +36,10 @@ export default defineConfig({
   // globalSetup: './src/test/helper/browser/globalSetup.ts',
   // globalTeardown: './src/test/helper/browser/globalTeardown.ts',
   globalTimeout: 60 * 60 * 1000,
+  // expect:{
+  //   timeout: 60000
+  // }
+  // grep: /smoke/
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
