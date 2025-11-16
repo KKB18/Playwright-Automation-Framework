@@ -13,7 +13,7 @@
   "format": "prettier --write \"/*.{ts,tsx,css,html}\" ",
   "scripts": {
     "My comments 1": "pretest --> for executing any command before the actual test, here used to run init.ts file which is used check the presence of test-results folder",
-    "pretest": "rimraf ScreenShots && rimraf src/test/helper/testData/systemInfo.json && npx ts-node src/test/helper/report/init.ts",
+    "pretest": "npx rimraf ScreenShots && npx rimraf src/test/helper/testData/systemInfo.json && npx ts-node src/test/helper/report/init.ts",
     "My comments 2": "test --> by executing 'npm test' the command with test is executed",
     "test": "cucumber-js test --config=cucumber.js || exit /b 0",
     "My comments 3": "posttest --> for executing any command after the actual test, here to create a custom html report",
