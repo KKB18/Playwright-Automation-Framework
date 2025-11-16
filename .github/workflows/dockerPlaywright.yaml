@@ -14,7 +14,7 @@ jobs:
     
     # Configure the Docker image to use for all steps in this job
     container: 
-      image: karthik0k0bhat/playwright-tests:latest
+      image: karthik0k0bhat/cucmber_playwright:latest
       # Optional: Set the working directory inside the container if it's not the default
       # options: --workdir /github/workspace 
 
