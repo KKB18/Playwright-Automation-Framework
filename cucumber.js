@@ -40,7 +40,7 @@ module.exports = {
         //"Treats undefined and pending steps as error"
         strict: true,
         parallel: 1,
-        monochrome: true
+        monochrome: false
     },
     //"Config for re running the failed Scenarios"
     rerun: {
