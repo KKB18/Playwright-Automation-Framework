@@ -34,10 +34,14 @@ jobs:
     # the setup-node, npm ci, and playwright install steps are removed.
     
     - name: Run Playwright tests
-      # Assuming your Docker image's entrypoint or shell can execute this command.
-      # If your image requires the command to be run as a script inside the container,
-      # you might need to adjust the run command based on your image setup.
-      run: npm test --TAGS="${{ vars.TAGS }}" --ENV=${{ vars.WEBSITE }}
+      # Pass the required environment variables explicitly
+      env:
+        # Maps GitHub variable to the npm_config format your local run uses
+        npm_config_ENV: ${{ vars.WEBSITE }} 
+        npm_config_TAGS: ${{ vars.TAGS }}
+      
+      # Now, the 'npm test' command can be simpler
+      run: npm test
 
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
