@@ -11,7 +11,7 @@ COPY package*.json ./
 
 # Install project dependencies
 # Note: Playwright itself and the browsers are already installed in the base image.
-RUN rm -rf node_modules && npm install
+RUN npm ci
 
 # Copy the rest of your Playwright project files
 COPY . .

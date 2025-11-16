@@ -33,7 +33,7 @@ jobs:
     # Since the Docker image is expected to have Node, Playwright, and dependencies installed,
     # the setup-node, npm ci, and playwright install steps are removed.
     - name: Install dependencies
-      run: npm install
+      run: npm ci
       
     - name: Run Playwright tests
       # Pass the required environment variables explicitly
