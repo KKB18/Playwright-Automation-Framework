@@ -38,7 +38,7 @@ export default defineConfig({
   globalTimeout: 60 * 60 * 1000,
   expect:{
     timeout: 10000
-  }
+  },
   // grep: /smoke/
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
