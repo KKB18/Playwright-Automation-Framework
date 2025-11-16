@@ -80,7 +80,7 @@ Then('user asserts that button {string} is disabled', async function (text: stri
 });
 
 When('user clicks and hold {string} button for {int} seconds', async function (text: string, time: number) {
-    const button = await page.locator(`//button//*[text()="${text}"]`);
+    const button = await page.locator(`//button//*[normalize-space(text())="${text}"]`);
     button.click({
         button: "left",
         delay: time * 1000

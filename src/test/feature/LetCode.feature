@@ -33,6 +33,7 @@ Feature: Practice and become pro in test automation
         Then user gets the css properties of button "What is my color?"
         Then user asserts that button "Disabled" is disabled
         When user clicks and hold "Button Hold!" button for 3 seconds
+        Then assert that "Button has been long pressed" text is visible
 
     @l4
     Scenario: Play with DropDowns
