@@ -16,7 +16,7 @@ test('Web inputs page for Automation Testing Practice',
             description: 'https://cloudEnterprise.com/Feature/US/testcase/23180',
         },
     },
-    async ({ page }, testInfo) => {
+    async function ({ page }, testInfo) {
         await page.goto('https://practice.expandtesting.com/inputs', { waitUntil: 'domcontentloaded', timeout: 5000 });
         await page.locator(`//h1[text()='Web inputs page for Automation Testing Practice']`).isVisible({ timeout: 3000 });
         await page.locator(`#input-number`).fill("25");
